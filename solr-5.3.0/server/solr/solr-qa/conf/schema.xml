@@ -6,29 +6,11 @@
 
    <field name="id" type="string" indexed="true" stored="true" required="true" multiValued="false" /> 
         
-   <field name="docid" type="string" indexed="true" stored="true" omitNorms="true"/>
-   <field name="file" type="string" indexed="true" stored="true"/>
-   <field name="doctitle" type="text_general" indexed="true" stored="true" omitNorms="true"/>
-   <field name="body" type="string" indexed="true" stored="true" multiValued="true"/>
-   <field name="docdate" type="text_general" indexed="true" stored="true" multiValued="true"/>
-   <field name="titleBody" type="text_general" indexed="true" stored="true" termVectors="true" termPositions="true" termOffsets="true" />
-   <field name="category" type="text_general" indexed="true" stored="true" termVectors="true" termPositions="true" termOffsets="true" />
-   
-   <field name="weight" type="float" indexed="true" stored="true"/>
-   <field name="price"  type="float" indexed="true" stored="true"/>
-   <field name="inStock" type="boolean" indexed="true" stored="true" />
-
-   <field name="subject" type="text_general" indexed="true" stored="true"/>
-   <field name="description" type="text_general" indexed="true" stored="true"/>
-   <field name="comments" type="text_general" indexed="true" stored="true"/>
-   <field name="author" type="text_general" indexed="true" stored="true"/>
-   <field name="keywords" type="text_general" indexed="true" stored="true"/>
-   <field name="resourcename" type="text_general" indexed="true" stored="true"/>
-   <field name="url" type="text_general" indexed="true" stored="true"/>
-   <field name="content_type" type="string" indexed="true" stored="true" multiValued="true"/>
-   <field name="links" type="string" indexed="true" stored="true" multiValued="true"/>
-   <field name="_src_" type="string" indexed="false" stored="true"/>
-   <field name="content" type="text_general" indexed="false" stored="true" multiValued="true"/>
+   <field name="name" type="text_ik" indexed="true" stored="true"/>
+   <field name="pathogeny" type="text_ik" indexed="true" stored="true"/>
+   <field name="symptom" type="text_ik" indexed="true" stored="true" omitNorms="true"/>
+   <field name="treatment" type="text_ik" indexed="true" stored="true" multiValued="true"/>
+   <field name="other" type="text_ik" indexed="true" stored="true" multiValued="true"/>
    <field name="text" type="text_general" indexed="true" stored="false" multiValued="true"/>
    
    <dynamicField name="*_i"  type="int"    indexed="true"  stored="true"/>
@@ -68,17 +50,11 @@
 
  <uniqueKey>id</uniqueKey>
 
-   <copyField source="price" dest="price_c"/>
-
-   <copyField source="doctitle" dest="text"/>
-   <copyField source="author" dest="text"/>
-   <copyField source="description" dest="text"/>
-   <copyField source="keywords" dest="text"/>
-   <copyField source="content" dest="text"/>
-   <copyField source="content_type" dest="text"/>
-   <copyField source="resourcename" dest="text"/>
-   <copyField source="url" dest="text"/>
-   <copyField source="author" dest="author_s"/>
+   <copyField source="name" dest="text"/>
+   <copyField source="pathogeny" dest="text"/>
+   <copyField source="symptom" dest="text"/>
+   <copyField source="treatment" dest="text"/>
+   <copyField source="other" dest="text"/>
 	
     <fieldType name="string" class="solr.StrField" sortMissingLast="true" />
     <fieldType name="boolean" class="solr.BoolField" sortMissingLast="true"/>
@@ -792,6 +768,12 @@
         <filter class="solr.SnowballPorterFilterFactory" language="Turkish"/>
       </analyzer>
     </fieldType>
+	
+	<fieldType name="text_ik" class="solr.TextField">
+		<analyzer type="index" isMaxWordLength="false" class="org.wltea.analyzer.lucene.IKAnalyzer"/>
+		<analyzer type="query" isMaxWordLength="true" class="org.wltea.analyzer.lucene.IKAnalyzer"/>
+	</fieldType>
+
   
 
 </schema>
