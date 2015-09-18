@@ -2,37 +2,58 @@ package in.thyferny.a;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.SolrQuery;
-import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.impl.HttpSolrClient;
-import org.apache.solr.client.solrj.impl.HttpSolrServer;
-import org.apache.solr.client.solrj.response.Group;
-import org.apache.solr.client.solrj.response.GroupCommand;
-import org.apache.solr.client.solrj.response.GroupResponse;
 import org.apache.solr.client.solrj.response.QueryResponse;
-import org.apache.solr.common.SolrDocument;
-import org.apache.solr.common.SolrDocumentList;
 import org.apache.solr.common.SolrInputDocument;
-import org.apache.solr.common.params.GroupParams;
+
+import in.thyferny.nlp.MyNLP;
 
 public class SolrConnector {
 	public static void main(String[] args) throws SolrServerException, IOException {
-			QueryResponse rsp = search(new String[]{"name","symptom"}, new String[]{"腹泻","呕吐"}, 0, 10, new String[]{}, new Boolean[]{}, true);
-			System.out.println(rsp);
+//		String content = "平时无不适，昨天晚上聚餐，喝了些酒，有点高了；早上感觉有些头晕，肚子也难受，上了几次厕所，便溏；然后伴有恶心，面色苍白，呕吐，这是怎么了？";
+//		List<String> keywordList = MyNLP.extractKeyword(content, 5);
+//		System.out.println(keywordList);
+//		
+//		QueryResponse rsp = search(new String[]{"name","symptom"}, new String[]{"腹泻","呕吐"}, 0, 10, new String[]{}, new Boolean[]{}, true);
+//		System.out.println(rsp.getHighlighting());
+//		System.out.println(rsp);
+		writeToFile();
 	}
 
+	private static void writeToFile() throws IOException{
+		Object temp = null;
+		File file = new File("Disease.dat");
+		FileInputStream in;
+		try {
+			in = new FileInputStream(file);
+			ObjectInputStream objIn = new ObjectInputStream(in);
+			temp = objIn.readObject();
+			objIn.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		List<DiseaseDescription> dds = (List<DiseaseDescription>) temp;
+		
+		FileWriter f = new FileWriter("D:/mqa-answer");
+		
+		for (DiseaseDescription dd : dds) {
+			f.write(dd.toString());
+			f.flush();
+		}
+		f.close();
+	}
 	private static void upload() throws SolrServerException, IOException {
 		Object temp = null;
 		File file = new File("Disease.dat");
@@ -92,9 +113,7 @@ public class SolrConnector {
 		}
 
 		if (null == sortfield || null == flag || sortfield.length != flag.length) {
-
 			return null;
-
 		}
 
 		SolrQuery query = null;

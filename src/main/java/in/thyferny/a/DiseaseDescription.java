@@ -48,5 +48,10 @@ public class DiseaseDescription implements Serializable{
 		super();
 		this.name = name;
 	}
+	@Override
+	public String toString() {
+		return "{\n\tname:" + name + "\n\tpathogeny:" + pathogeny + "\n\tsymptom:" + symptom + "\n\ttreatment:"
+				+ treatment + "\n\tother:" + other + "}\n\n";
+	}
 	
 }
