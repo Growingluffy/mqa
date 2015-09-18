@@ -6,11 +6,11 @@
 
    <field name="id" type="string" indexed="true" stored="true" required="true" multiValued="false" /> 
         
-   <field name="name" type="text_ik" indexed="true" stored="true"/>
-   <field name="pathogeny" type="text_ik" indexed="true" stored="true"/>
-   <field name="symptom" type="text_ik" indexed="true" stored="true" omitNorms="true"/>
-   <field name="treatment" type="text_ik" indexed="true" stored="true" multiValued="true"/>
-   <field name="other" type="text_ik" indexed="true" stored="true" multiValued="true"/>
+   <field name="name" type="text_mqa" indexed="true" stored="true"/>
+   <field name="pathogeny" type="text_mqa" indexed="true" stored="true"/>
+   <field name="symptom" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+   <field name="treatment" type="text_mqa" indexed="true" stored="true" multiValued="true"/>
+   <field name="other" type="text_mqa" indexed="true" stored="true" multiValued="true"/>
    <field name="text" type="text_general" indexed="true" stored="false" multiValued="true"/>
    
    <dynamicField name="*_i"  type="int"    indexed="true"  stored="true"/>
@@ -769,9 +769,9 @@
       </analyzer>
     </fieldType>
 	
-	<fieldType name="text_ik" class="solr.TextField">
-		<analyzer type="index" isMaxWordLength="false" class="org.wltea.analyzer.lucene.IKAnalyzer"/>
-		<analyzer type="query" isMaxWordLength="true" class="org.wltea.analyzer.lucene.IKAnalyzer"/>
+	<fieldType name="text_mqa" class="solr.TextField">
+		<analyzer type="index" isMaxWordLength="false" class="in.thyferny.lucene.MyNLPAnalyzer"/>
+		<analyzer type="query" isMaxWordLength="true" class="in.thyferny.lucene.MyNLPAnalyzer"/>
 	</fieldType>
 
   
