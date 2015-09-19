@@ -1,4 +1,4 @@
-package in.thyferny.nlp.model.maxent;
+package main.java.in.thyferny.nlp.model.maxent;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -37,9 +37,9 @@ public class MaxEnt implements Serializable
     
 	private int C;
 
-    public void save()
+    public void save(String path)
     {
-        File file =new File("MaxEnt.dat");
+        File file =new File(path);
         FileOutputStream out;
         try {
             out = new FileOutputStream(file);
@@ -52,10 +52,10 @@ public class MaxEnt implements Serializable
         }
     }
     
-    public static MaxEnt loadModel()
+    public static MaxEnt loadModel(String path)
     {
         Object temp=null;
-        File file =new File("MaxEnt.dat");
+        File file =new File(path);
         FileInputStream in;
         try {
             in = new FileInputStream(file);
@@ -70,9 +70,69 @@ public class MaxEnt implements Serializable
         return (MaxEnt)temp;
     }
     
+    public void loadCSV(String path) throws IOException
+    {
+    	Segment segment = MyNLP.newSegment();
+		segment.enableIndexMode(true);
+		segment.enablePartOfSpeechTagging(false);
+		segment.enableNameRecognize(true);
+		segment.enablePlaceRecognize(true);
+		segment.enableOrganizationRecognize(true);
+		segment.enableTranslatedNameRecognize(false);
+		segment.enableCustomDictionary(false);
+		segment.enableJapaneseNameRecognize(false);
+		segment.enableAllNamedEntityRecognize(true);
+		
+        BufferedReader br = new BufferedReader(new FileReader(new File(path)));
+        String line = br.readLine();
+        while (line != null)
+        {
+        	String[] csvArray = line.split(";");
+        	if(csvArray.length<4){
+        		line = br.readLine();
+        		continue;
+        	}
+        	String content = csvArray[1];
+        	String title = csvArray[2];
+        	String type = csvArray[3];
+        	if(type==null||type.equals("")){
+        		line = br.readLine();
+        		continue;
+        	}
+        	List<Term> segs = segment.seg(content+";"+title);
+            String label = type;
+            int length = segs.size();
+            List<String> fieldList = new ArrayList<String>();
+            for (int i = 0; i < length; ++i)
+            {
+            	if(segs.get(i).word.trim().equals("")){
+            		continue;
+            	}
+                fieldList.add(segs.get(i).word);
+                Feature feature = new Feature(label, segs.get(i).word);
+                int index = featureList.indexOf(feature);
+                if (index == -1)
+                {
+                    featureList.add(feature);
+                    featureCountList.add(1);
+                }
+                else
+                {
+                    featureCountList.set(index, featureCountList.get(index) + 1);
+                }
+            }
+            if (fieldList.size() > C) C = fieldList.size();
+            Instance instance = new Instance(label, fieldList);
+            instanceList.add(instance);
+            if (labels.indexOf(label) == -1) labels.add(label);
+            line = br.readLine();
+        }
+        br.close();
+    }
+    
     public void loadData(String path) throws IOException
     {
-    	Segment segment = MyNLP.newSegment();//启用分词器训练
+    	Segment segment = MyNLP.newSegment();//启用分词器训�?
 		segment.enableIndexMode(true);
 		segment.enablePartOfSpeechTagging(false);
 		segment.enableNameRecognize(true);
@@ -88,7 +148,6 @@ public class MaxEnt implements Serializable
         while (line != null)
         {
         	List<Term> segs = segment.seg(line);
-//            String[] segs = line.split("\\s");
             String label = segs.get(0).word;
             int length = segs.size();
             List<String> fieldList = new ArrayList<String>();
@@ -132,7 +191,7 @@ public class MaxEnt implements Serializable
             empiricalE[i] = (double) featureCountList.get(i) / instanceList.size();
         }
 
-        double[] lastWeight = new double[weight.length];  // 上次迭代的权重
+        double[] lastWeight = new double[weight.length];  // 上次迭代的权�?
         for (int i = 0; i < maxIt; ++i)
         {
         	long start = System.currentTimeMillis();
@@ -182,7 +241,7 @@ public class MaxEnt implements Serializable
     {
         for (int i = 0; i < w1.length; ++i)
         {
-            if (Math.abs(w1[i] - w2[i]) >= 0.01)    // 收敛阀值0.01可自行调整
+            if (Math.abs(w1[i] - w2[i]) >= 0.01)    // 收敛�?�?0.01可自行调�?
                 return false;
         }
         return true;
@@ -195,7 +254,7 @@ public class MaxEnt implements Serializable
         for (int i = 0; i < instanceList.size(); ++i)
         {
             List<String> fieldList = instanceList.get(i).fieldList;
-            //计算当前样本X对应所有类别的概率
+            //计算当前样本X对应�?有类别的概率
             double[] pro = calProb(fieldList);
             for (int j = 0; j < fieldList.size(); j++)
             {
