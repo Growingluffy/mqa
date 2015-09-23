@@ -1,4 +1,4 @@
-package main.java.in.thyferny.nlp.model.maxent;
+package in.thyferny.nlp.model.maxent;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
