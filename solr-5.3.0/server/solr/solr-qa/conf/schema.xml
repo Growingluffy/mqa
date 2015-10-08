@@ -5,13 +5,320 @@
    <field name="_root_" type="string" indexed="true" stored="false"/>
 
    <field name="id" type="string" indexed="true" stored="true" required="true" multiValued="false" /> 
-        
-   <field name="name" type="text_mqa" indexed="true" stored="true"/>
-   <field name="pathogeny" type="text_mqa" indexed="true" stored="true"/>
-   <field name="symptom" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
-   <field name="treatment" type="text_mqa" indexed="true" stored="true" multiValued="true"/>
-   <field name="other" type="text_mqa" indexed="true" stored="true" multiValued="true"/>
-   <field name="text" type="text_general" indexed="true" stored="false" multiValued="true"/>
+   
+   <field name="name" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+   <field name="yuchulidefenleijiyoulie" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="fare" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="fangliaolishi" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="bingfazheng" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="jiangyashipin" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="zicitiao" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="zhibingyuanli" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="yiyi" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="jianligusuiku" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="yinxiebingdefenxing" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="nengliangdeyongtuyuxuyao" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="mudi" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="zhongxiyijiehezhiliao" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="fenxing" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="zhongzhifugaiyichideweihu" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="baojiankangbinggongxiao" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="tanchengfen" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="zhifangyujibing" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="fenqi" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="yuanze" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="zhiliaoyuanze" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="fugaiyichileixingxuanze" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="daozhifutongdejibing" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="zhenduan" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="fenqifenziyichuanxuefaxianhezhiliao" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="linchuangbiaoxian" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="shuhouzhuyi" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="shuimianyichangyujibing" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="yingyangzhichidefangshi" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="naiyaoxiangguandingyi" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="changjianbing" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="bianzhengyaodian" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="changxuanyongdexueguan" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="shuqiantongbufanghualiaodeshoushushiji" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="chongjianfangfa" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="zuoyong" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="taotongguanyichi" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="hulitiaoshi" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="shuhouzhuyishixiang" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="yiyuanjiuzhi" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="linchuangchangjianbing" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="guangminji" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="renshiwuqu" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="jijiuchuli" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="caozuoyaodian" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="bingyinjibinglitedian" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="zitizaoxieganxibaoyizhidebuzhou" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="binglifenxing" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="jisuisunshangdefenji" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="yufangtangniaobingdewugeyaodian" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="xianchangchuli" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="dahandeyingxiang" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="jiehejundechuanbotujing" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="yuanyin" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="yujibingdeguanxi" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="caozuofangfa" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="wuxiangdabiao" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="zhiliaojiyuhou" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="zaoxieganxibaoyichang" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="changjianfeiyoujilinnongyao" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="qushi" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="jijiujibanyun" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="yufangtiaoshe" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="shenzhengyaodian" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="zhongyaoxing" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="yuchuantongfangliaozhaoshedequbie" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="liaoxiaopanding" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="ermingbingyin" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="bingli" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="zhenghoufenxi" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="liaoxiao" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="gangongnengpingjiazhibiao" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="jizhujisuisunshangpingfenxitong" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="fangshexinghesuzhiliaoyufangliaodequbie" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="bingyin" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="wuzhenlouzhenfangfan" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="yinshijizhuyishixiang" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="duanlianbuzhoujifangfa" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="shanshizhidao" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="dikangli" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="yuchulijihuishu" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="douxingxindongguohuandeyuanyin" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="jizhuguzhefenlei" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="jianbieyaodian" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="fuzhujiancha" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="zhongliuleixing" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="yufanghuli" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="changjiandeaiqianbingbian" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="fangzhiyaodian" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="yuanli" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="yiwudezhonglei" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="bingfazhengdezhiliao" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="xiaoguo" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="qixieyizhideyoudian" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="chuanranxing" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="jiancezhibiao" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="guangliaofangfa" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="yufangyuzhiliao" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="shaichaxiangmu" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="buliangfanyingjiduice" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="shiyingzheng" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="tese" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="bingyinyufabingjizhi" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="bingyinjifabingjizhi" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="quedian" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="cedingtizhongshidezhuyishixiang" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="zhifangdegongxiao" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="shiyanshijiancha" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="feiaichuantongliaofa" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="qixieyizhishiyingzheng" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="bingfazhenghehouyizheng" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="kesoudejizhi" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="xiaoguopingjia" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="youdian" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="shoushuzhizheng" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="shenjingyingxiangxuejiancha" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="zhiliao" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="bianzhengshizhi" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="anquanxing" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="shengwuxuexingwei" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="yingyouerxianchangxinfeifusu" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="shiziyuanzedeneirong" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="tedian" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="xuezhongtedian" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="fuzuoyong" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="yinshitiaoli" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="yuhouzhuangui" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="gaishu" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="heyixuedeyoushi" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="jianfeiyaokexue" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="changyongliaofajieshao" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="jiatingchuli" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="zhenduanjijianbiezhenduan" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="shibaiyuanyin" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="bingyinhefabingjizhi" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="xiandaizhiliaoqushi" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="daozhifayinshibaideyuanyinjichulifangfa" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="yufangbaojian" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="shuimianjiexi" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="bingyinjifenlei" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="liuxingbingxue" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="dahanyuanyin" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="qixieyizhidequedian" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="yingyong" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="shiyingzhenghejinjizheng" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="shoushuchengxu" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="shengaodeyingxiangyinsu" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="huanzheshuqianzhunbei" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="jianchahouzhuyishixiang" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="fangfa" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="xianjinjishuyingyong" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="feijiehe" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="youshi" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="qianjianchajizhuyishixiang" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="zhanwang" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="kangaishipin" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="shanshixianweiyujiankang" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="leixing" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="zhongliugexinghuazhiliaodehexin" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="linchuangbiaoxianjizhenduan" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="woguojiehebingfangzhi" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="rentidezuchengchengfen" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="gusuichuancishibaiyuanyin" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="shenghuoshi" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="youfayinsu" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="biyaoxing" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="erzhebijiao" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="futongchangjianjibing" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="shizhiyaodian" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="jiuzhiyuanze" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="fenxingbiaozhun" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="anyajishuyaoqiu" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="shiyongbuwei" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="queshuikeyinzhijibing" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="tanyechuli" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="xianchangjijiu" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="queyaxiufu" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="aixiaozhengdezhiliao" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="yinshitiaohu" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="zhonglei" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="zhiliaoyaodian" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="shuhouchuli" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="xiaoguojianquanxing" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="fangfabuzhouyuyaoqiu" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="wuquyuanyinyujiuzheng" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="gaishanfangfa" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="mengyoudetedian" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="zhenghoujibianzhengshizhi" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="caozuobuzhou" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="jinjichuli" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="changyongyaowu" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="changjianjibing" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="gusuichuancibuwei" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="yinshiliaofa" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="rentixitong" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="fangzhi" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="tiwenceliangyuzhengchangbodong" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="yingyangzhichidezuoyong" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="buzhouyufangfa" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="zonghezhiliao" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="kezhijibing" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="zhongzhizhiliaosheji" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="chulifangfa" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="liduanshangfenlei" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="shoushufangfa" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="jiatingxiaoyaoxiang" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="jijiuyaodian" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="feiaifenlei" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="zhiliaomoshi" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="dafazuojiuzhi" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="yuhou" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="queyadebiduan" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="jijiu" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="xinfeifusukaishiyizao" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="yinshifangaifangfa" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="yufangtiaohu" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="buweijifanwei" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="laiyuan" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="jiancha" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="huli" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="panduanfangfa" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="zhongliubiaozhiwujiancha" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="linchuangfenxing" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="yanghufangfa" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="buzhou" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="qiangjiu" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="weihai" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="yuhouyusuifang" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="zhongzhihuanzhedekouqiangweihu" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="zaoxieganxibaodefenleiyugongneng" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="jinjizheng" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="changguilinchuangyingyongxiangmu" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="naosunshangguocheng" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="suozhijibing" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="yichangbianhuaxiangguanyinsu" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="xinnaoxueguanjibingdeyufang" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="shuidegongnengyuheshui" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="changjianjibingjizhengzhuang" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="shuhouhuli" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="changjianguominxingjibing" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="kangtiyu" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="jianchaqianzhunbeigongzuo" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="richangbaojian" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="yufangfangfa" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="shuqianzhunbei" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="yuanzeneirong" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="shoushubuzhou" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="fenqixitong" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="benerdanleizhenjingcuimianyao" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="xindezuoyong" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="baixuebingshidazhengxiang" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="xingtai" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="jiehebingyiqinghuishengdezhuyaoyuanyin" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="zhenduanyujianbiezhenduan" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="qiantingcaofangfa" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="jutineirong" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="linchuangfenxingjibingli" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="yingyangsuyuaizheng" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="changyongzhixuefangfa" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="futongdeganjue" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="bingyinbingji" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="fengxian" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="wuqu" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="yufangyutiaoshe" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="zhongdujizhi" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="buliangfanying" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="changbeiyaozhongdujijiuzhi" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="linchuangyingyong" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="zhibingxing" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="jibenyuanze" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="linchuangyiyi" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="yuanyinjichuli" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="jianbiezhenduan" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="jibingzhuangtaixiadekesoufanshe" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="fenleiyuzhenduan" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="zhenduanbiaozhun" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="yufang" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="xinfuzhuhualiaohoujieshoushoushudeshiji" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="feiyong" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="zhenduanhejianbiezhenduan" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="linchuangbinglileixing" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="changjianbingfazheng" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="jutifangfa" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="shashuyaofenlei" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="fuyinxiebingfenxing" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="jiegouyugongneng" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="wuzhendefangkong" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="jikezhongzhideyouquedian" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="linchuangchangjiandewuzhen" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="muqianjiaowanshanheshiyongdefangliaojishu" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="zhenduanyiju" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="yijiyufangcuoshi" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="zhiliaofangfa" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="zuoyongjizhi" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="degongneng" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="pingpanbiaozhun" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="jianchaxuzhi" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="gudingfangfa" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="fenqibiaozhun" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="feipangpanding" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="bingyinjichangjianjibing" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="chuanbofangshi" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="xunlianfangfa" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="fenlei" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="binglishengli" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="xiangguanjiancha" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="fenleijifenqi" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="fabingjizhi" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="fufa" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="zaocanyingyangxue" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="zhuyishixiang" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+<field name="text" type="text_general" indexed="true" stored="false" multiValued="true"/>
    
    <dynamicField name="*_i"  type="int"    indexed="true"  stored="true"/>
    <dynamicField name="*_is" type="int"    indexed="true"  stored="true"  multiValued="true"/>
@@ -49,12 +356,319 @@
    <dynamicField name="random_*" type="random" />
 
  <uniqueKey>id</uniqueKey>
+<copyField source="name" dest="text"/>
+   <copyField source="yuchulidefenleijiyoulie" dest="text"/>
+<copyField source="fare" dest="text"/>
+<copyField source="fangliaolishi" dest="text"/>
+<copyField source="bingfazheng" dest="text"/>
+<copyField source="jiangyashipin" dest="text"/>
+<copyField source="zicitiao" dest="text"/>
+<copyField source="zhibingyuanli" dest="text"/>
+<copyField source="yiyi" dest="text"/>
+<copyField source="jianligusuiku" dest="text"/>
+<copyField source="yinxiebingdefenxing" dest="text"/>
+<copyField source="nengliangdeyongtuyuxuyao" dest="text"/>
+<copyField source="mudi" dest="text"/>
+<copyField source="zhongxiyijiehezhiliao" dest="text"/>
+<copyField source="fenxing" dest="text"/>
+<copyField source="zhongzhifugaiyichideweihu" dest="text"/>
+<copyField source="baojiankangbinggongxiao" dest="text"/>
+<copyField source="tanchengfen" dest="text"/>
+<copyField source="zhifangyujibing" dest="text"/>
+<copyField source="fenqi" dest="text"/>
+<copyField source="yuanze" dest="text"/>
+<copyField source="zhiliaoyuanze" dest="text"/>
+<copyField source="fugaiyichileixingxuanze" dest="text"/>
+<copyField source="daozhifutongdejibing" dest="text"/>
+<copyField source="zhenduan" dest="text"/>
+<copyField source="fenqifenziyichuanxuefaxianhezhiliao" dest="text"/>
+<copyField source="linchuangbiaoxian" dest="text"/>
+<copyField source="shuhouzhuyi" dest="text"/>
+<copyField source="shuimianyichangyujibing" dest="text"/>
+<copyField source="yingyangzhichidefangshi" dest="text"/>
+<copyField source="naiyaoxiangguandingyi" dest="text"/>
+<copyField source="changjianbing" dest="text"/>
+<copyField source="bianzhengyaodian" dest="text"/>
+<copyField source="changxuanyongdexueguan" dest="text"/>
+<copyField source="shuqiantongbufanghualiaodeshoushushiji" dest="text"/>
+<copyField source="chongjianfangfa" dest="text"/>
+<copyField source="zuoyong" dest="text"/>
+<copyField source="taotongguanyichi" dest="text"/>
+<copyField source="hulitiaoshi" dest="text"/>
+<copyField source="shuhouzhuyishixiang" dest="text"/>
+<copyField source="yiyuanjiuzhi" dest="text"/>
+<copyField source="linchuangchangjianbing" dest="text"/>
+<copyField source="guangminji" dest="text"/>
+<copyField source="renshiwuqu" dest="text"/>
+<copyField source="jijiuchuli" dest="text"/>
+<copyField source="caozuoyaodian" dest="text"/>
+<copyField source="bingyinjibinglitedian" dest="text"/>
+<copyField source="zitizaoxieganxibaoyizhidebuzhou" dest="text"/>
+<copyField source="binglifenxing" dest="text"/>
+<copyField source="jisuisunshangdefenji" dest="text"/>
+<copyField source="yufangtangniaobingdewugeyaodian" dest="text"/>
+<copyField source="xianchangchuli" dest="text"/>
+<copyField source="dahandeyingxiang" dest="text"/>
+<copyField source="jiehejundechuanbotujing" dest="text"/>
+<copyField source="yuanyin" dest="text"/>
+<copyField source="yujibingdeguanxi" dest="text"/>
+<copyField source="caozuofangfa" dest="text"/>
+<copyField source="wuxiangdabiao" dest="text"/>
+<copyField source="zhiliaojiyuhou" dest="text"/>
+<copyField source="zaoxieganxibaoyichang" dest="text"/>
+<copyField source="changjianfeiyoujilinnongyao" dest="text"/>
+<copyField source="qushi" dest="text"/>
+<copyField source="jijiujibanyun" dest="text"/>
+<copyField source="yufangtiaoshe" dest="text"/>
+<copyField source="shenzhengyaodian" dest="text"/>
+<copyField source="zhongyaoxing" dest="text"/>
+<copyField source="yuchuantongfangliaozhaoshedequbie" dest="text"/>
+<copyField source="liaoxiaopanding" dest="text"/>
+<copyField source="ermingbingyin" dest="text"/>
+<copyField source="bingli" dest="text"/>
+<copyField source="zhenghoufenxi" dest="text"/>
+<copyField source="liaoxiao" dest="text"/>
+<copyField source="gangongnengpingjiazhibiao" dest="text"/>
+<copyField source="jizhujisuisunshangpingfenxitong" dest="text"/>
+<copyField source="fangshexinghesuzhiliaoyufangliaodequbie" dest="text"/>
+<copyField source="bingyin" dest="text"/>
+<copyField source="wuzhenlouzhenfangfan" dest="text"/>
+<copyField source="yinshijizhuyishixiang" dest="text"/>
+<copyField source="duanlianbuzhoujifangfa" dest="text"/>
+<copyField source="shanshizhidao" dest="text"/>
+<copyField source="dikangli" dest="text"/>
+<copyField source="yuchulijihuishu" dest="text"/>
+<copyField source="douxingxindongguohuandeyuanyin" dest="text"/>
+<copyField source="jizhuguzhefenlei" dest="text"/>
+<copyField source="jianbieyaodian" dest="text"/>
+<copyField source="fuzhujiancha" dest="text"/>
+<copyField source="zhongliuleixing" dest="text"/>
+<copyField source="yufanghuli" dest="text"/>
+<copyField source="changjiandeaiqianbingbian" dest="text"/>
+<copyField source="fangzhiyaodian" dest="text"/>
+<copyField source="yuanli" dest="text"/>
+<copyField source="yiwudezhonglei" dest="text"/>
+<copyField source="bingfazhengdezhiliao" dest="text"/>
+<copyField source="xiaoguo" dest="text"/>
+<copyField source="qixieyizhideyoudian" dest="text"/>
+<copyField source="chuanranxing" dest="text"/>
+<copyField source="jiancezhibiao" dest="text"/>
+<copyField source="guangliaofangfa" dest="text"/>
+<copyField source="yufangyuzhiliao" dest="text"/>
+<copyField source="shaichaxiangmu" dest="text"/>
+<copyField source="buliangfanyingjiduice" dest="text"/>
+<copyField source="shiyingzheng" dest="text"/>
+<copyField source="tese" dest="text"/>
+<copyField source="bingyinyufabingjizhi" dest="text"/>
+<copyField source="bingyinjifabingjizhi" dest="text"/>
+<copyField source="quedian" dest="text"/>
+<copyField source="cedingtizhongshidezhuyishixiang" dest="text"/>
+<copyField source="zhifangdegongxiao" dest="text"/>
+<copyField source="shiyanshijiancha" dest="text"/>
+<copyField source="feiaichuantongliaofa" dest="text"/>
+<copyField source="qixieyizhishiyingzheng" dest="text"/>
+<copyField source="bingfazhenghehouyizheng" dest="text"/>
+<copyField source="kesoudejizhi" dest="text"/>
+<copyField source="xiaoguopingjia" dest="text"/>
+<copyField source="youdian" dest="text"/>
+<copyField source="shoushuzhizheng" dest="text"/>
+<copyField source="shenjingyingxiangxuejiancha" dest="text"/>
+<copyField source="zhiliao" dest="text"/>
+<copyField source="bianzhengshizhi" dest="text"/>
+<copyField source="anquanxing" dest="text"/>
+<copyField source="shengwuxuexingwei" dest="text"/>
+<copyField source="yingyouerxianchangxinfeifusu" dest="text"/>
+<copyField source="shiziyuanzedeneirong" dest="text"/>
+<copyField source="tedian" dest="text"/>
+<copyField source="xuezhongtedian" dest="text"/>
+<copyField source="fuzuoyong" dest="text"/>
+<copyField source="yinshitiaoli" dest="text"/>
+<copyField source="yuhouzhuangui" dest="text"/>
+<copyField source="gaishu" dest="text"/>
+<copyField source="heyixuedeyoushi" dest="text"/>
+<copyField source="jianfeiyaokexue" dest="text"/>
+<copyField source="changyongliaofajieshao" dest="text"/>
+<copyField source="jiatingchuli" dest="text"/>
+<copyField source="zhenduanjijianbiezhenduan" dest="text"/>
+<copyField source="shibaiyuanyin" dest="text"/>
+<copyField source="bingyinhefabingjizhi" dest="text"/>
+<copyField source="xiandaizhiliaoqushi" dest="text"/>
+<copyField source="daozhifayinshibaideyuanyinjichulifangfa" dest="text"/>
+<copyField source="yufangbaojian" dest="text"/>
+<copyField source="shuimianjiexi" dest="text"/>
+<copyField source="bingyinjifenlei" dest="text"/>
+<copyField source="liuxingbingxue" dest="text"/>
+<copyField source="dahanyuanyin" dest="text"/>
+<copyField source="qixieyizhidequedian" dest="text"/>
+<copyField source="yingyong" dest="text"/>
+<copyField source="shiyingzhenghejinjizheng" dest="text"/>
+<copyField source="shoushuchengxu" dest="text"/>
+<copyField source="shengaodeyingxiangyinsu" dest="text"/>
+<copyField source="huanzheshuqianzhunbei" dest="text"/>
+<copyField source="jianchahouzhuyishixiang" dest="text"/>
+<copyField source="fangfa" dest="text"/>
+<copyField source="xianjinjishuyingyong" dest="text"/>
+<copyField source="feijiehe" dest="text"/>
+<copyField source="youshi" dest="text"/>
+<copyField source="qianjianchajizhuyishixiang" dest="text"/>
+<copyField source="zhanwang" dest="text"/>
+<copyField source="kangaishipin" dest="text"/>
+<copyField source="shanshixianweiyujiankang" dest="text"/>
+<copyField source="leixing" dest="text"/>
+<copyField source="zhongliugexinghuazhiliaodehexin" dest="text"/>
+<copyField source="linchuangbiaoxianjizhenduan" dest="text"/>
+<copyField source="woguojiehebingfangzhi" dest="text"/>
+<copyField source="rentidezuchengchengfen" dest="text"/>
+<copyField source="gusuichuancishibaiyuanyin" dest="text"/>
+<copyField source="shenghuoshi" dest="text"/>
+<copyField source="youfayinsu" dest="text"/>
+<copyField source="biyaoxing" dest="text"/>
+<copyField source="erzhebijiao" dest="text"/>
+<copyField source="futongchangjianjibing" dest="text"/>
+<copyField source="shizhiyaodian" dest="text"/>
+<copyField source="jiuzhiyuanze" dest="text"/>
+<copyField source="fenxingbiaozhun" dest="text"/>
+<copyField source="anyajishuyaoqiu" dest="text"/>
+<copyField source="shiyongbuwei" dest="text"/>
+<copyField source="queshuikeyinzhijibing" dest="text"/>
+<copyField source="tanyechuli" dest="text"/>
+<copyField source="xianchangjijiu" dest="text"/>
+<copyField source="queyaxiufu" dest="text"/>
+<copyField source="aixiaozhengdezhiliao" dest="text"/>
+<copyField source="yinshitiaohu" dest="text"/>
+<copyField source="zhonglei" dest="text"/>
+<copyField source="zhiliaoyaodian" dest="text"/>
+<copyField source="shuhouchuli" dest="text"/>
+<copyField source="xiaoguojianquanxing" dest="text"/>
+<copyField source="fangfabuzhouyuyaoqiu" dest="text"/>
+<copyField source="wuquyuanyinyujiuzheng" dest="text"/>
+<copyField source="gaishanfangfa" dest="text"/>
+<copyField source="mengyoudetedian" dest="text"/>
+<copyField source="zhenghoujibianzhengshizhi" dest="text"/>
+<copyField source="caozuobuzhou" dest="text"/>
+<copyField source="jinjichuli" dest="text"/>
+<copyField source="changyongyaowu" dest="text"/>
+<copyField source="changjianjibing" dest="text"/>
+<copyField source="gusuichuancibuwei" dest="text"/>
+<copyField source="yinshiliaofa" dest="text"/>
+<copyField source="rentixitong" dest="text"/>
+<copyField source="fangzhi" dest="text"/>
+<copyField source="tiwenceliangyuzhengchangbodong" dest="text"/>
+<copyField source="yingyangzhichidezuoyong" dest="text"/>
+<copyField source="buzhouyufangfa" dest="text"/>
+<copyField source="zonghezhiliao" dest="text"/>
+<copyField source="kezhijibing" dest="text"/>
+<copyField source="zhongzhizhiliaosheji" dest="text"/>
+<copyField source="chulifangfa" dest="text"/>
+<copyField source="liduanshangfenlei" dest="text"/>
+<copyField source="shoushufangfa" dest="text"/>
+<copyField source="jiatingxiaoyaoxiang" dest="text"/>
+<copyField source="jijiuyaodian" dest="text"/>
+<copyField source="feiaifenlei" dest="text"/>
+<copyField source="zhiliaomoshi" dest="text"/>
+<copyField source="dafazuojiuzhi" dest="text"/>
+<copyField source="yuhou" dest="text"/>
+<copyField source="queyadebiduan" dest="text"/>
+<copyField source="jijiu" dest="text"/>
+<copyField source="xinfeifusukaishiyizao" dest="text"/>
+<copyField source="yinshifangaifangfa" dest="text"/>
+<copyField source="yufangtiaohu" dest="text"/>
+<copyField source="buweijifanwei" dest="text"/>
+<copyField source="laiyuan" dest="text"/>
+<copyField source="jiancha" dest="text"/>
+<copyField source="huli" dest="text"/>
+<copyField source="panduanfangfa" dest="text"/>
+<copyField source="zhongliubiaozhiwujiancha" dest="text"/>
+<copyField source="linchuangfenxing" dest="text"/>
+<copyField source="yanghufangfa" dest="text"/>
+<copyField source="buzhou" dest="text"/>
+<copyField source="qiangjiu" dest="text"/>
+<copyField source="weihai" dest="text"/>
+<copyField source="yuhouyusuifang" dest="text"/>
+<copyField source="zhongzhihuanzhedekouqiangweihu" dest="text"/>
+<copyField source="zaoxieganxibaodefenleiyugongneng" dest="text"/>
+<copyField source="jinjizheng" dest="text"/>
+<copyField source="changguilinchuangyingyongxiangmu" dest="text"/>
+<copyField source="naosunshangguocheng" dest="text"/>
+<copyField source="suozhijibing" dest="text"/>
+<copyField source="yichangbianhuaxiangguanyinsu" dest="text"/>
+<copyField source="xinnaoxueguanjibingdeyufang" dest="text"/>
+<copyField source="shuidegongnengyuheshui" dest="text"/>
+<copyField source="changjianjibingjizhengzhuang" dest="text"/>
+<copyField source="shuhouhuli" dest="text"/>
+<copyField source="changjianguominxingjibing" dest="text"/>
+<copyField source="kangtiyu" dest="text"/>
+<copyField source="jianchaqianzhunbeigongzuo" dest="text"/>
+<copyField source="richangbaojian" dest="text"/>
+<copyField source="yufangfangfa" dest="text"/>
+<copyField source="shuqianzhunbei" dest="text"/>
+<copyField source="yuanzeneirong" dest="text"/>
+<copyField source="shoushubuzhou" dest="text"/>
+<copyField source="fenqixitong" dest="text"/>
+<copyField source="benerdanleizhenjingcuimianyao" dest="text"/>
+<copyField source="xindezuoyong" dest="text"/>
+<copyField source="baixuebingshidazhengxiang" dest="text"/>
+<copyField source="xingtai" dest="text"/>
+<copyField source="jiehebingyiqinghuishengdezhuyaoyuanyin" dest="text"/>
+<copyField source="zhenduanyujianbiezhenduan" dest="text"/>
+<copyField source="qiantingcaofangfa" dest="text"/>
+<copyField source="jutineirong" dest="text"/>
+<copyField source="linchuangfenxingjibingli" dest="text"/>
+<copyField source="yingyangsuyuaizheng" dest="text"/>
+<copyField source="changyongzhixuefangfa" dest="text"/>
+<copyField source="futongdeganjue" dest="text"/>
+<copyField source="bingyinbingji" dest="text"/>
+<copyField source="fengxian" dest="text"/>
+<copyField source="wuqu" dest="text"/>
+<copyField source="yufangyutiaoshe" dest="text"/>
+<copyField source="zhongdujizhi" dest="text"/>
+<copyField source="buliangfanying" dest="text"/>
+<copyField source="changbeiyaozhongdujijiuzhi" dest="text"/>
+<copyField source="linchuangyingyong" dest="text"/>
+<copyField source="zhibingxing" dest="text"/>
+<copyField source="jibenyuanze" dest="text"/>
+<copyField source="linchuangyiyi" dest="text"/>
+<copyField source="yuanyinjichuli" dest="text"/>
+<copyField source="jianbiezhenduan" dest="text"/>
+<copyField source="jibingzhuangtaixiadekesoufanshe" dest="text"/>
+<copyField source="fenleiyuzhenduan" dest="text"/>
+<copyField source="zhenduanbiaozhun" dest="text"/>
+<copyField source="yufang" dest="text"/>
+<copyField source="xinfuzhuhualiaohoujieshoushoushudeshiji" dest="text"/>
+<copyField source="feiyong" dest="text"/>
+<copyField source="zhenduanhejianbiezhenduan" dest="text"/>
+<copyField source="linchuangbinglileixing" dest="text"/>
+<copyField source="changjianbingfazheng" dest="text"/>
+<copyField source="jutifangfa" dest="text"/>
+<copyField source="shashuyaofenlei" dest="text"/>
+<copyField source="fuyinxiebingfenxing" dest="text"/>
+<copyField source="jiegouyugongneng" dest="text"/>
+<copyField source="wuzhendefangkong" dest="text"/>
+<copyField source="jikezhongzhideyouquedian" dest="text"/>
+<copyField source="linchuangchangjiandewuzhen" dest="text"/>
+<copyField source="muqianjiaowanshanheshiyongdefangliaojishu" dest="text"/>
+<copyField source="zhenduanyiju" dest="text"/>
+<copyField source="yijiyufangcuoshi" dest="text"/>
+<copyField source="zhiliaofangfa" dest="text"/>
+<copyField source="zuoyongjizhi" dest="text"/>
+<copyField source="degongneng" dest="text"/>
+<copyField source="pingpanbiaozhun" dest="text"/>
+<copyField source="jianchaxuzhi" dest="text"/>
+<copyField source="gudingfangfa" dest="text"/>
+<copyField source="fenqibiaozhun" dest="text"/>
+<copyField source="feipangpanding" dest="text"/>
+<copyField source="bingyinjichangjianjibing" dest="text"/>
+<copyField source="chuanbofangshi" dest="text"/>
+<copyField source="xunlianfangfa" dest="text"/>
+<copyField source="fenlei" dest="text"/>
+<copyField source="binglishengli" dest="text"/>
+<copyField source="xiangguanjiancha" dest="text"/>
+<copyField source="fenleijifenqi" dest="text"/>
+<copyField source="fabingjizhi" dest="text"/>
+<copyField source="fufa" dest="text"/>
+<copyField source="zaocanyingyangxue" dest="text"/>
+<copyField source="zhuyishixiang" dest="text"/>
 
-   <copyField source="name" dest="text"/>
-   <copyField source="pathogeny" dest="text"/>
-   <copyField source="symptom" dest="text"/>
-   <copyField source="treatment" dest="text"/>
-   <copyField source="other" dest="text"/>
 	
     <fieldType name="string" class="solr.StrField" sortMissingLast="true" />
     <fieldType name="boolean" class="solr.BoolField" sortMissingLast="true"/>

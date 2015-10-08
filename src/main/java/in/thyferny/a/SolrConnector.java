@@ -5,6 +5,9 @@ import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -24,7 +27,7 @@ import in.thyferny.nlp.model.maxent.MaxEnt;
 import javafx.util.Pair;
 
 public class SolrConnector {
-	public static void main(String[] args) throws SolrServerException, IOException {
+	public static void main(String[] args) throws SolrServerException, IOException, NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 		// String content =
 		// "平时无不适，昨天晚上聚餐，喝了些酒，有点高了；早上感觉有些头晕，肚子也难受，上了几次厕所，便溏；然后伴有恶心，面色苍白，呕吐，这是怎么了？";
 		// List<String> keywordList = MyNLP.extractKeyword(content, 5);
@@ -35,10 +38,13 @@ public class SolrConnector {
 		// System.out.println(rsp.getHighlighting());
 		// System.out.println(rsp);
 		// writeToJsonFile();
-		String[] answers = allInOneQuery("臀肌挛缩症3个月后可以做剧烈运动了吗？？");
+		String[] answers = allInOneQuery("溃疡病穿孔有哪些表现？");//臀肌挛缩症3个月后可以做剧烈运动了吗？？
+		
 		for(String ans:answers){
 			System.out.println(ans);
 		}
+//		uploadNewDisease();
+//		deleteAll();
 	}
 
 	private static void writeToJsonFile() throws IOException {
@@ -66,9 +72,9 @@ public class SolrConnector {
 		f.close();
 	}
 
-	private static void upload() throws SolrServerException, IOException {
+	private static void uploadNewDisease() throws SolrServerException, IOException, NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 		Object temp = null;
-		File file = new File("Disease.dat");
+		File file = new File("NewDisease.dat");
 		FileInputStream in;
 		try {
 			in = new FileInputStream(file);
@@ -80,7 +86,7 @@ public class SolrConnector {
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
-		List<DiseaseDescription> dds = (List<DiseaseDescription>) temp;
+		List<NewDiseaseDescription> dds = (List<NewDiseaseDescription>) temp;
 
 		HttpSolrClient solr = new HttpSolrClient("http://127.0.0.1:8983/solr/solr-qa");
 		solr.setConnectionTimeout(100);
@@ -88,19 +94,73 @@ public class SolrConnector {
 		solr.setMaxTotalConnections(100);
 
 		List<SolrInputDocument> docs = new ArrayList<SolrInputDocument>();
-		for (DiseaseDescription dd : dds) {
+		for (NewDiseaseDescription dd : dds) {
 			SolrInputDocument doc = new SolrInputDocument();
 			doc.addField("id", UUID.randomUUID().toString());
-			doc.addField("name", dd.getName());
-			doc.addField("pathogeny", dd.getPathogeny());
-			doc.addField("symptom", dd.getSymptom());
-			doc.addField("treatment", dd.getTreatment());
-			doc.addField("other", dd.getOther());
+			for(Field f:NewDiseaseDescription.class.getDeclaredFields()){
+				String fieldName = f.getName();
+				if(fieldName.equals("serialVersionUID")){
+					continue;
+				}
+				String first = fieldName.substring(0, 1).toUpperCase();
+				String rest = fieldName.substring(1, fieldName.length());
+				String upperCaseFieldName = new StringBuffer(first).append(rest).toString(); 
+				Method method = NewDiseaseDescription.class.getMethod("get"+upperCaseFieldName, null);
+//				System.out.println(fieldName+":"+method.invoke(dd, null));
+				doc.addField(fieldName, method.invoke(dd, null));
+			}
 			docs.add(doc);
 		}
 		solr.add(docs);
 		solr.commit();
 	}
+	
+	private static void deleteAll() throws SolrServerException, IOException {
+
+		HttpSolrClient solr = new HttpSolrClient("http://127.0.0.1:8983/solr/solr-qa");
+		solr.setConnectionTimeout(100);
+		solr.setDefaultMaxConnectionsPerHost(100);
+		solr.setMaxTotalConnections(100);
+
+		solr.deleteByQuery("*:*");
+		solr.commit();
+	}
+	
+//	private static void upload() throws SolrServerException, IOException {
+//		Object temp = null;
+//		File file = new File("Disease.dat");
+//		FileInputStream in;
+//		try {
+//			in = new FileInputStream(file);
+//			ObjectInputStream objIn = new ObjectInputStream(in);
+//			temp = objIn.readObject();
+//			objIn.close();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		} catch (ClassNotFoundException e) {
+//			e.printStackTrace();
+//		}
+//		List<DiseaseDescription> dds = (List<DiseaseDescription>) temp;
+//
+//		HttpSolrClient solr = new HttpSolrClient("http://127.0.0.1:8983/solr/solr-qa");
+//		solr.setConnectionTimeout(100);
+//		solr.setDefaultMaxConnectionsPerHost(100);
+//		solr.setMaxTotalConnections(100);
+//
+//		List<SolrInputDocument> docs = new ArrayList<SolrInputDocument>();
+//		for (DiseaseDescription dd : dds) {
+//			SolrInputDocument doc = new SolrInputDocument();
+//			doc.addField("id", UUID.randomUUID().toString());
+//			doc.addField("name", dd.getName());
+//			doc.addField("pathogeny", dd.getPathogeny());
+//			doc.addField("symptom", dd.getSymptom());
+//			doc.addField("treatment", dd.getTreatment());
+//			doc.addField("other", dd.getOther());
+//			docs.add(doc);
+//		}
+//		solr.add(docs);
+//		solr.commit();
+//	}
 
 	public static String loadMQAPredictMaxEnt(List<String> fieldList) throws IOException {
 		MaxEnt maxEnt = MaxEnt.loadModel("QMaxEnt.dat");
@@ -124,7 +184,17 @@ public class SolrConnector {
 		} else if (answerType.equals("其他")) {
 			aType = "other";
 		}
-		QueryResponse rsp = search(new String[] { "name", "symptom", "pathogeny", "treatment", "other" },
+		String[] fields = new String[NewDiseaseDescription.class.getDeclaredFields().length-1];
+		List<String> tmp = new ArrayList<>();
+		for(Field f:NewDiseaseDescription.class.getDeclaredFields()){
+			String fieldName = f.getName();
+			if(fieldName.equals("serialVersionUID")){
+				continue;
+			}
+			tmp.add(fieldName);
+		}
+		tmp.toArray(fields);
+		QueryResponse rsp = search(fields,
 				keywordList.toArray(new String[keywordList.size()]), 0, 10, new String[] {}, new Boolean[] {}, true);
 		SolrDocumentList sdl = (SolrDocumentList) rsp.getResponse().get("response");
 		List<String> answers = new ArrayList<>();
@@ -166,7 +236,7 @@ public class SolrConnector {
 			sb.append(key[0]);
 			query = new SolrQuery();
 			for (int i = 1; i < key.length; i++) {
-				sb.append(" and ");
+				sb.append(" AND ");
 				sb.append(key[i]);
 			}
 			query.setQuery(sb.toString());

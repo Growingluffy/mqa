@@ -23,23 +23,25 @@ import in.thyferny.nlp.MyNLP;
 public class XMLReader {
 
 	public static void main(String args[]) {
-//		Map<String, String> fields = fieldList();
-//		for(String s :fields.keySet()){
-//			System.out.println("private String "+s+" = \"\";//"+fields.get(s));
-//		}
-		List<NewDiseaseDescription> disease = getDisease();
-		System.out.println(disease);
-		File file =new File("NewDisease.dat");
-        FileOutputStream out;
-        try {
-            out = new FileOutputStream(file);
-            ObjectOutputStream objOut=new ObjectOutputStream(out);
-            objOut.writeObject(disease);
-            objOut.flush();
-            objOut.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+		Map<String, String> fields = fieldList();
+		for(String s :fields.keySet()){
+//			<field name="symptom" type="text_mqa" indexed="true" stored="true" omitNorms="true"/>
+//			System.out.println("<field name=\""+s+"\" type=\"text_mqa\" indexed=\"true\" stored=\"true\" omitNorms=\"true\"/>");
+			System.out.println("<copyField source=\""+s+"\" dest=\"text\"/>");
+		}
+//		List<NewDiseaseDescription> disease = getDisease();
+//		System.out.println(disease);
+//		File file =new File("NewDisease.dat");
+//        FileOutputStream out;
+//        try {
+//            out = new FileOutputStream(file);
+//            ObjectOutputStream objOut=new ObjectOutputStream(out);
+//            objOut.writeObject(disease);
+//            objOut.flush();
+//            objOut.close();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
 	}
 
 	private static Map<String, String> fieldList() {
