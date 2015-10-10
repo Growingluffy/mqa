@@ -1,14 +1,27 @@
 package com.ibaguo.mqa.util;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.google.gson.Gson;
+
 public class Utils {
 	private static final String SEP1 = "=";  
     private static final String SEP2 = ",";  
   
+    public static String toJson(Object obj){
+    	Gson gson = new Gson();  
+        return gson.toJson(obj);
+    }
+    
+    public static <T> T fromJson(String str, Type type) {  
+        Gson gson = new Gson();  
+        return gson.fromJson(str, type);  
+    }
+    
     public static String listToString(List<?> list) {  
         StringBuffer sb = new StringBuffer();  
         if (list != null && list.size() > 0) {  

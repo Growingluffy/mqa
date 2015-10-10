@@ -70,6 +70,7 @@ public class WebSocketServer {
 		context.addServlet(new ServletHolder(new KeyWordServlet()), "/keyword");
 		context.addServlet(new ServletHolder(new MaxEntServlet()), "/maxent");
 		context.addServlet(new ServletHolder(new SolrSearchServlet()), "/solrquery");
+		context.addServlet(new ServletHolder(new SegmentServlet()), "/seg");
 		server.start();
 		context.dumpStdErr();
 		server.join();

@@ -24,13 +24,13 @@ public class MaxEntServlet extends HttpServlet {
 		protected void doGet(HttpServletRequest request, HttpServletResponse response)
 				throws ServletException, IOException {
 			String[] kwList = request.getParameter("kwList").split(",");
-			response.setContentType("text/html");
+			response.setContentType("application/json;charset=utf-8"); 
 			response.setCharacterEncoding("UTF-8");
 			response.setStatus(HttpServletResponse.SC_OK);
 			MaxEnt maxEnt = MaxEnt.loadModel("QMaxEnt.dat");
 			Map<String, Double> result = maxEnt.predict(Arrays.asList(kwList));
-			response.getWriter().println("<h1>" + Utils.mapToString(result) + "</h1>");
-			response.getWriter().println("<h1>" + maxEnt.eval(Arrays.asList(kwList)) + "</h1>");
+			response.getWriter().println(Utils.toJson(result));
+			response.getWriter().println(maxEnt.eval(Arrays.asList(kwList)));
 			response.getWriter().println("session=" + request.getSession(true).getId());
 		}
 	}
