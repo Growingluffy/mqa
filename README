@@ -1,64 +1,64 @@
-Taming Text, by Grant Ingersoll, Thomas Morton and Drew Farris is
-designed to teach software engineers the basic concepts of working
-with text to solve search and Natural Language Processing problems.
-The book focuses on teaching using existing open source libraries like
-Apache Solr, Apache Mahout and Apache OpenNLP to manipulate text.  To
-learn more, visit http://www.manning.com/ingersoll.
+MQA(Medical Question Answer) System, by ibaguo INC? is
+designed to help the medical system to build the online Chinese qa-system easily.
+blabla...
 
 Getting Started
 ---------------
 
-Throughout this document, TT_HOME is the directory containing the
-checkout of the Taming Text code base.
+Throughout this document, MQA_HOME is the directory containing the
 
-Taming Text uses Maven for building and running the code.  To get
+checkout of the MQA code base.
+
+Taming Text uses original java classpath and linux shell to run the code.  To get
 started, you will need:
 
-1. JDK 1.6+ 
-2. Maven 3.0 or higher 
-3. The OpenNLP English models, available at 
-   http://maven.tamingtext.com/opennlp-models/models-1.5.
-
-   Place the models in the TT_HOME directory in a directory named
-   opennlp-models. 
-
-   This can be done by using the following commands on UNIX from the
-   TT_HOME directory:
-
-   mkdir opennlp-models 
-   cd opennlp-models 
-   wget -nd -np -r http://maven.tamingtext.com/opennlp-models/models-1.5/ 
-   rm index.html*
-
-4. Get WordNet 3.0 and place it in the TT_HOME directory.
+1. JDK 1.7+ 
+2. Chinese Dictionary Data
+	Include
+		-custom dic
+		-different lang support
+		-person name
+		-place
+		-synonym
+		-traditional Chinese
+		-core dic
+		-stop words
+   	Place the data in the $USER_HOME$(such as /root/,/home/$USER,c:/user/$USER)
+3.Trained MaxEnt Model
+	-QMaxEnt.dat
+	Place the model in the $USER_HOME$
+4.Libs
+	-jetty
+	-solr
+	-lucence
+	Place the model in the $USER_HOME$/lib
    
-   This can be done by using the following commands on UNIX from the
-   TT_HOME directory:
+Above can be done following the next Unix Command:
+   cd ~
+   mkdir lib
+   mkdir solr
+   mkdir $MQA_HOME
+   git clone ?
 
-   wget -nd -np -m http://maven.tamingtext.com/wordnet/
-   rm index.html*
-   tar -xf WordNet-3.0.tar.gz
+To run the WebServlet,use
+   java -Djava.ext.dirs=$USER_HOME/lib/ -classpath $MQA_HOME/mqa.jar com.ibaguo.mqa.services.WebSocketServer
+
+the Server added 3 addServlet by far:
+   +- [/keyword]=>com.ibaguo.mqa.services.KeyWordServlet
+   +- [/maxent]=>com.ibaguo.mqa.services.MaxEntServlet
+   +- [/solrquery]=>com.ibaguo.mqa.services.SolrSearchServlet
+   
+bind the URL and Para strickly as 
+   http://$host:8080/keyword?sent=%E4%BB%8A%E5%A4%A9%E4%B8%AD%E5%8D%88%E5%90%83%E4%BA%86%E4%BB%80%E4%B9%88,%E6%8B%89%E8%82%9A%E5%AD%90%E4%BA%86&num=3
+   http://$host:8080/maxent?kwList=%E5%8F%AF%E4%BB%A5,%E5%89%A7%E7%83%88,%E8%BF%90%E5%8A%A8
+   http://$host:8080/solrquery?kw=%E5%8F%AF%E4%BB%A5,%E5%89%A7%E7%83%88,%E8%BF%90%E5%8A%A8&size=20
+
+++.Next important feature is to extend the similar Chinese words and implement to the solrquery
+++.Test Cases
 
 Building the Source
 -------------------
 
-Prior to building the source, for those previously unfamiliar with Maven,
-it may be wise to read this to avoid future hassles:
-http://maven.apache.org/guides/getting-started/maven-in-five-minutes.html
-
-To build the source, in TT_HOME:
-
-   mvn clean package 
-
-Running the Examples
+As checked the code from git.
+Just clean-build the project in eclipse or IntelliJ
 --------------------
-
-Many of the examples can be run via the 'tt' script in the TT_HOME/bin
-directory. Running this script without arguments will display a list
-of the example names.
-
-Some of the samples are powered by pre-configured instances of
-solr. These can be started with the TT_HOME/bin/start-solr.sh script,
-which takes a single argument, the name of the instance to
-start. Available instances include solr-qa, solr-clustering and
-solr-tagging.
