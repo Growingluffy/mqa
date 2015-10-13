@@ -71,6 +71,8 @@ public class WebSocketServer {
 		context.addServlet(new ServletHolder(new MaxEntServlet()), "/maxent");
 		context.addServlet(new ServletHolder(new SolrSearchServlet()), "/solrquery");
 		context.addServlet(new ServletHolder(new SegmentServlet()), "/seg");
+		context.addServlet(new ServletHolder(new AskServlet()), "/ask");
+		context.addServlet(new ServletHolder(new SynonymServlet()), "/synonym");
 		server.start();
 		context.dumpStdErr();
 		server.join();
