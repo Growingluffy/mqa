@@ -13,6 +13,8 @@ import javax.servlet.http.HttpServletResponse;
 import com.ibaguo.mqa.intefaces.AnswerSearcher;
 import com.ibaguo.mqa.intefaces.KeyWordExtract;
 import com.ibaguo.mqa.intefaces.QuestionClassifier;
+import com.ibaguo.mqa.intefaces.QuestionToAnswer;
+import com.ibaguo.mqa.pack.impl.IBaguoAsk;
 import com.ibaguo.mqa.pack.impl.NlpKeyWordExtract;
 import com.ibaguo.mqa.pack.impl.SolrSearcher;
 import com.ibaguo.mqa.util.Utils;
@@ -31,14 +33,9 @@ public class AskServlet extends HttpServlet {
 		response.setContentType("application/json;charset=utf-8");
 		response.setCharacterEncoding("UTF-8");
 		response.setStatus(HttpServletResponse.SC_OK);
-		KeyWordExtract kwe = new NlpKeyWordExtract();
-		List<String> kwList = kwe.extractKeyword(sent, 3);
-		QuestionClassifier qc = MaxEnt.loadModel("QMaxEnt.dat");
-		String questionType = qc.eval(kwList);
-		AnswerSearcher as = new SolrSearcher();
-		Map<String, String> kv = as.search(kwList, true);
-		
-		response.getWriter().println("<h1>" + Utils.toJson(kwList) + "</h1>");
+		QuestionToAnswer qa = new IBaguoAsk();
+		List<String> result = qa.makeQa(sent);
+		response.getWriter().println("<h1>" + Utils.toJson(result) + "</h1>");
 		response.getWriter().println("session=" + request.getSession(true).getId());
 	}
 }

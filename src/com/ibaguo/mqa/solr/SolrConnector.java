@@ -38,12 +38,12 @@ public class SolrConnector {
 		// System.out.println(rsp.getHighlighting());
 		// System.out.println(rsp);
 		// writeToJsonFile();
-		String[] answers = allInOneQuery("溃疡病穿孔有哪些表现？");//臀肌挛缩症3个月后可以做剧烈运动了吗？？
-		
-		for(String ans:answers){
-			System.out.println(ans);
-		}
-//		uploadNewDisease();
+//		String[] answers = allInOneQuery("溃疡病穿孔有哪些表现？");//臀肌挛缩症3个月后可以做剧烈运动了吗？？
+//		
+//		for(String ans:answers){
+//			System.out.println(ans);
+//		}
+		uploadNewDisease();
 //		deleteAll();
 	}
 

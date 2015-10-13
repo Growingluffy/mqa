@@ -15,57 +15,72 @@ import org.apache.solr.common.SolrDocumentList;
 
 import com.ibaguo.mqa.intefaces.AnswerSearcher;
 import com.ibaguo.mqa.solr.NewDiseaseDescription;
+import com.ibaguo.mqa.solr.SolrReturn;
 
 public class SolrSearcher implements AnswerSearcher{
 
 	@Override
-	public Map<String,String> search(List<String> key, int start, int count, boolean sortDesc) {
+	public List<SolrReturn> search(List<String> key, int start, int count, boolean sortDesc) {
 		QueryResponse rsp = search(key, start, count, new String[] {}, new Boolean[] {}, true);
 		SolrDocumentList sdl = (SolrDocumentList) rsp.getResponse().get("response");
-		Map<String,String>  answers = new HashMap<>();
+		List<SolrReturn> ret = new ArrayList<>();
 		for (SolrDocument sd : sdl) {
+			SolrReturn sr = new SolrReturn();
+			Map<String,String> data = new HashMap<>();
 			for(String fn:sd.getFieldNames()){
-				if(fn.equals("name")) continue;
+				if(fn.equals("name")) {
+					sr.setName(sd.getFieldValue(fn).toString());
+					continue;
+				}
 				Object obj = sd.getFieldValue(fn);
 				if(obj instanceof String){
 					String value = (String)obj;
 					if(!value.equals("")){
-						answers.put(fn, value);
+						data.put(fn, value);
 					}
 				}else if(obj instanceof ArrayList){
 					List<String> ans = (ArrayList<String>)obj ;
 					if(ans.size()!=0&&!ans.get(0).equals("")){
-						answers.put(fn,ans.get(0));
+						data.put(fn,ans.get(0));
 					}
 				}
 			};
+			sr.setData(data);
+			ret.add(sr);
 		}
-		return answers;
+		return ret;
 	}
 
 	@Override
-	public Map<String,String> search(List<String> key, boolean sortDesc) {
+	public List<SolrReturn> search(List<String> key, boolean sortDesc) {
 		QueryResponse rsp = search(key, 0, 10, new String[] {}, new Boolean[] {}, true);
 		SolrDocumentList sdl = (SolrDocumentList) rsp.getResponse().get("response");
-		Map<String,String>  answers = new HashMap<>();
+		List<SolrReturn> ret = new ArrayList<>();
 		for (SolrDocument sd : sdl) {
+			SolrReturn sr = new SolrReturn();
+			Map<String,String> data = new HashMap<>();
 			for(String fn:sd.getFieldNames()){
-				if(fn.equals("name")) continue;
+				if(fn.equals("name")) {
+					sr.setName(sd.getFieldValue(fn).toString());
+					continue;
+				}
 				Object obj = sd.getFieldValue(fn);
 				if(obj instanceof String){
 					String value = (String)obj;
 					if(!value.equals("")){
-						answers.put(fn, value);
+						data.put(fn, value);
 					}
 				}else if(obj instanceof ArrayList){
 					List<String> ans = (ArrayList<String>)obj ;
 					if(ans.size()!=0&&!ans.get(0).equals("")){
-						answers.put(fn,ans.get(0));
+						data.put(fn,ans.get(0));
 					}
 				}
 			};
+			sr.setData(data);
+			ret.add(sr);
 		}
-		return answers;
+		return ret;
 	}
 
 	public static SolrClient createSolrServer() {

@@ -1,5 +1,7 @@
 package com.ibaguo.mqa.intefaces;
 
-public interface QuestionToAnswer {
+import java.util.List;
 
+public interface QuestionToAnswer {
+	public List<String> makeQa(String q);
 }

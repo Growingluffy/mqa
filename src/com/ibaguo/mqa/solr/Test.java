@@ -1,6 +1,7 @@
 package com.ibaguo.mqa.solr;
 
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -43,11 +44,20 @@ public class Test {
 		// trainSaveQTMaxEnt();
 //		trainSaveQTMaxEnt();
 //		loadMQAPredictMaxEnt();
-		 SynonymItem lst = CoreSynonymDictionary.get("腹泻");
-		 for(Synonym kk:Collections.sort(lst.synonymList)){
-			 System.out.println(kk.getRealWord());
-			 System.out.println(CoreSynonymDictionary.similarity("腹泻", kk.getRealWord()));
+		 for(Field f:NewDiseaseDescription.class.getDeclaredFields()){
+				String fieldName = f.getName();
+				if(fieldName.equals("serialVersionUID")){
+					continue;
+				}
+				
+				
+					System.out.println(fieldName);	
 		 }
+//		 SynonymItem lst = CoreSynonymDictionary.get("腹泻");
+//		 for(Synonym kk:Collections.sort(lst.synonymList)){
+//			 System.out.println(kk.getRealWord());
+//			 System.out.println(CoreSynonymDictionary.similarity("腹泻", kk.getRealWord()));
+//		 }
 //		System.out.println(CoreSynonymDictionary.get("香蕉"));
 //		System.out.println(CoreSynonymDictionary.get("腹泻"));
 		//
