@@ -40,7 +40,10 @@ Above can be done following the next Unix Command:
    mkdir $MQA_HOME
    git clone ?
 
-To run the WebServlet,use
+To run the WebServlet,first you should init the solr server
+use
+   solr/bin/solr start
+then check port 8983,the webservlet should be started with command
    java -Djava.ext.dirs=$USER_HOME/lib/ -classpath $MQA_HOME/mqa.jar com.ibaguo.mqa.services.WebSocketServer
 
 the Server added 3 addServlet by far:
