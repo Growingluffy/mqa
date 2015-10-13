@@ -15,11 +15,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.ibaguo.mqa.intefaces.QuestionClassifier;
 import com.ibaguo.nlp.MyNLP;
 import com.ibaguo.nlp.seg.Segment;
 import com.ibaguo.nlp.seg.common.Term;
 
-public class MaxEnt implements Serializable
+public class MaxEnt implements Serializable,QuestionClassifier
 {
     
     /**

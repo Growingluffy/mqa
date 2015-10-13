@@ -274,7 +274,6 @@ public class SolrConnector {
 		}
 		// 返回查询结果
 		return rsp;
-
 	}
 
 }

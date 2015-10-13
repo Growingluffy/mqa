@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.ibaguo.mqa.intefaces.QuestionClassifier;
 import com.ibaguo.mqa.util.Utils;
 import com.ibaguo.nlp.MyNLP;
 import com.ibaguo.nlp.model.maxent.MaxEnt;
@@ -27,7 +28,7 @@ public class MaxEntServlet extends HttpServlet {
 			response.setContentType("application/json;charset=utf-8"); 
 			response.setCharacterEncoding("UTF-8");
 			response.setStatus(HttpServletResponse.SC_OK);
-			MaxEnt maxEnt = MaxEnt.loadModel("QMaxEnt.dat");
+			QuestionClassifier maxEnt = MaxEnt.loadModel("QMaxEnt.dat");
 			Map<String, Double> result = maxEnt.predict(Arrays.asList(kwList));
 			response.getWriter().println(Utils.toJson(result));
 			response.getWriter().println(maxEnt.eval(Arrays.asList(kwList)));

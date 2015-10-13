@@ -45,13 +45,10 @@ public class SolrSearchServlet extends HttpServlet {
 						String value = (String)obj;
 						if(!value.equals("")){
 							jsonMap.put(fn, value);
-//							response.getWriter().println("\t"+value);
 						}
 					}else if(obj instanceof ArrayList){
 						List<String> ans = (ArrayList<String>)obj ;
 						if(ans.size()!=0&&!ans.get(0).equals("")){
-//							List<String> summary = MyNLP.extractSummary(ans.get(0), 1);//depends on if need to summary the answer
-//							response.getWriter().println("\t"+ans.get(0));
 							jsonMap.put(fn, ans.get(0));
 						}
 					}

@@ -2,11 +2,18 @@ package com.ibaguo.mqa.solr;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
 import com.ibaguo.mqa.util.Utils;
+import com.ibaguo.nlp.MyNLP;
+import com.ibaguo.nlp.corpus.synonym.Synonym;
+import com.ibaguo.nlp.dictionary.CoreSynonymDictionary;
+import com.ibaguo.nlp.dictionary.common.CommonSynonymDictionary.SynonymItem;
 import com.ibaguo.nlp.model.maxent.MaxEnt;
+import com.ibaguo.nlp.seg.Segment;
+import com.ibaguo.nlp.seg.common.Term;
 
 public class Test {
 	public static void main(String[] args) throws IOException {
@@ -16,7 +23,7 @@ public class Test {
 		// List<String> keywordList = MyNLP.extractKeyword(content, 3);
 		// System.out.println(keywordList);
 		//
-		// Segment segment = MyNLP.newSegment();
+		 Segment segment = MyNLP.newSegment();
 		// segment.enableIndexMode(true);
 		// segment.enablePartOfSpeechTagging(false);
 		// segment.enableNameRecognize(true);
@@ -26,7 +33,7 @@ public class Test {
 		// segment.enableCustomDictionary(false);
 		// segment.enableJapaneseNameRecognize(false);
 		// segment.enableAllNamedEntityRecognize(true);
-		// List<Term> termList = segment.seg("中文分词测试 这是一段普通的文本");
+		 List<Term> termList = segment.seg("中文分词测试 这是一段普通的文本");
 		// System.out.println(termList);
 
 		// trainSaveMaxEnt();
@@ -34,8 +41,15 @@ public class Test {
 		// loadPredictMaxEnt();
 
 		// trainSaveQTMaxEnt();
-		trainSaveQTMaxEnt();
-		loadMQAPredictMaxEnt();
+//		trainSaveQTMaxEnt();
+//		loadMQAPredictMaxEnt();
+		 SynonymItem lst = CoreSynonymDictionary.get("腹泻");
+		 for(Synonym kk:Collections.sort(lst.synonymList)){
+			 System.out.println(kk.getRealWord());
+			 System.out.println(CoreSynonymDictionary.similarity("腹泻", kk.getRealWord()));
+		 }
+//		System.out.println(CoreSynonymDictionary.get("香蕉"));
+//		System.out.println(CoreSynonymDictionary.get("腹泻"));
 		//
 		// System.out.println("距离0\t" + CoreSynonymDictionary.distance("香蕉",
 		// "苹果"));
