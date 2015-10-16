@@ -5,6 +5,7 @@ import static com.ibaguo.nlp.utility.Predefine.logger;
 
 import java.io.InputStreamReader;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 import java.util.logging.Level;
 
@@ -251,6 +252,11 @@ public class MyNLP
     public static List<String> extractKeyword(String document, int size)
     {
         return TextRankKeyword.getKeywordList(document, size);
+    }
+    
+    public static List<Map.Entry<String, Float>> rankWordScore(String document)
+    {
+        return TextRankKeyword.rankWordScore(document);
     }
 
     

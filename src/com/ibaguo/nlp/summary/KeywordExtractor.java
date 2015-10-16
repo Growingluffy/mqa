@@ -8,7 +8,7 @@ import com.ibaguo.nlp.seg.common.Term;
 public class KeywordExtractor
 {
     
-    public boolean shouldInclude(Term term)
+    public static boolean shouldInclude(Term term)
     {
         // 除掉停用词
         if (term.nature == null) return false;
