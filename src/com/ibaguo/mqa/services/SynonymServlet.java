@@ -28,7 +28,7 @@ public class SynonymServlet extends HttpServlet {
 			response.setStatus(HttpServletResponse.SC_OK);
 			KeyWordSynonym synonym = new NlpWordSynonym();
 			List<String> synonymList = synonym.getSynonymList(word, sortDesc);
-			response.getWriter().println("<h1>" + Utils.toJson(synonymList) + "</h1>");
+			response.getWriter().println(Utils.toJson(synonymList));
 			response.getWriter().println("session=" + request.getSession(true).getId());
 		}
 	}

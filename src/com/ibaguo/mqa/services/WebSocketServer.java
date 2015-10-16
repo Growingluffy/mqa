@@ -68,11 +68,12 @@ public class WebSocketServer {
 		context.addServlet(new ServletHolder(new HelloServlet()), "/hello");
 		context.addServlet(new ServletHolder(new GoodbyeServlet()), "/goodbye");
 		context.addServlet(new ServletHolder(new KeyWordServlet()), "/keyword");
-		context.addServlet(new ServletHolder(new MaxEntServlet()), "/maxent");
+		context.addServlet(new ServletHolder(new MaxEntServlet()), "/type");
 		context.addServlet(new ServletHolder(new SolrSearchServlet()), "/solrquery");
 		context.addServlet(new ServletHolder(new SegmentServlet()), "/seg");
 		context.addServlet(new ServletHolder(new AskServlet()), "/ask");
 		context.addServlet(new ServletHolder(new SynonymServlet()), "/synonym");
+		context.addServlet(new ServletHolder(new RankWordServlet()), "/rankword");
 		server.start();
 		context.dumpStdErr();
 		server.join();

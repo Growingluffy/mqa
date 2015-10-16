@@ -10,26 +10,25 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.ibaguo.mqa.intefaces.KeyWordExtract;
+import com.ibaguo.mqa.pack.impl.KeywordScore;
 import com.ibaguo.mqa.pack.impl.NlpKeyWordExtract;
 import com.ibaguo.mqa.util.Utils;
 import com.ibaguo.nlp.MyNLP;
 
-public class KeyWordServlet extends HttpServlet {
+public class RankWordServlet extends HttpServlet {
 		private static final long serialVersionUID = 1L;
 
-		public KeyWordServlet() {
+		public RankWordServlet() {
 		}
 
 		protected void doGet(HttpServletRequest request, HttpServletResponse response)
 				throws ServletException, IOException {
 			String sent = request.getParameter("sent");
-			String num = request.getParameter("num");
-			Integer rNum = Integer.valueOf(num);
 			response.setContentType("application/json;charset=utf-8");
 			response.setCharacterEncoding("UTF-8");
 			response.setStatus(HttpServletResponse.SC_OK);
 			KeyWordExtract kwe = new NlpKeyWordExtract();
-			List<String> kwList = kwe.extractKeyword(sent, rNum);
+			List<KeywordScore> kwList = kwe.rankWordScore(sent);
 			response.getWriter().println(Utils.toJson(kwList));
 			response.getWriter().println("session=" + request.getSession(true).getId());
 		}
