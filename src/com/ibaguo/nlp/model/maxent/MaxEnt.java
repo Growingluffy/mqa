@@ -73,6 +73,10 @@ public class MaxEnt implements Serializable,QuestionClassifier
         return (MaxEnt)temp;
     }
     
+    public MaxEnt initFromFile(String path){
+    	return loadModel(path);
+    }
+    
     public void loadCSV(String path) throws IOException
     {
     	Segment segment = MyNLP.newSegment();

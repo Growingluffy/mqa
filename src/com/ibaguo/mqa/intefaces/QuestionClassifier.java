@@ -6,7 +6,7 @@ import java.util.Map;
 
 public interface QuestionClassifier {
 	void save(String path);
-	void loadData(String path) throws IOException;
+	QuestionClassifier initFromFile(String path);
 	void train(int maxIt);
 	String eval(List<String> fieldList);
 	Map<String, Double> predict(List<String> fieldList);
