@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.UUID;
 
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrDocument;
@@ -12,43 +13,48 @@ import org.apache.solr.common.SolrDocumentList;
 
 import com.ibaguo.mqa.intefaces.AnswerSearcher;
 import com.ibaguo.mqa.json.Doc;
+import com.ibaguo.mqa.json.DocRank;
 import com.ibaguo.mqa.solr.SolrConnector;
 import com.ibaguo.nlp.suggest.Suggester;
 
 public class SolrSearcher implements AnswerSearcher{
 
-	public Map<Doc, Double> search(String[] kw) {
+	public List<DocRank> search(String[] kw) {
 		QueryResponse rsp = SolrConnector.search(kw, 0, 20, new String[] {}, new Boolean[] {}, true);
 		SolrDocumentList sdl = (SolrDocumentList) rsp.getResponse().get("response");
 		Map<Doc, Double> listDoc = new HashMap<>();
 		Map<String, Doc> contentToDoc = new HashMap<>();
 		Suggester suggester = new Suggester();
 		for (SolrDocument sd : sdl) {
-			StringBuffer sb = new StringBuffer();
-			Doc doc = new Doc(sd.getFieldValue("name").toString());
-			for(String fn:sd.getFieldNames()){
-				if(fn.equals("name")) continue;
-				Object obj = sd.getFieldValue(fn);
-				if(obj instanceof String){
-					String value = (String)obj;
-					if(!value.equals("")){
+			try {
+				StringBuffer sb = new StringBuffer();
+				Doc doc = new Doc(sd.getFieldValue("name").toString(),sd.getFieldValue("id").toString());
+				for(String fn:sd.getFieldNames()){
+					if(fn.equals("name")||fn.equals("id")) continue;
+					Object obj = sd.getFieldValue(fn);
+					if(obj instanceof String){
+						String value = (String)obj;
+						if(!value.equals("")){
 //						jsonMap.put(fn, value);
-						doc.putFieldVal(fn, value);
-						sb.append(value+";");
-						suggester.addSentence(value);
-					}
-				}else if(obj instanceof ArrayList){
-					List<String> ans = (ArrayList<String>)obj ;
-					if(ans.size()!=0&&!ans.get(0).equals("")){
-						doc.putFieldVal(fn, ans.get(0));
-						sb.append(ans.get(0)+";");
+							doc.putFieldVal(fn, value);
+							sb.append(value+";");
+							suggester.addSentence(value);
+						}
+					}else if(obj instanceof ArrayList){
+						List<String> ans = (ArrayList<String>)obj ;
+						if(ans.size()!=0&&!ans.get(0).equals("")){
+							doc.putFieldVal(fn, ans.get(0));
+							sb.append(ans.get(0)+";");
 //						jsonMap.put(fn, ans.get(0));
+						}
 					}
 				}
+				suggester.addSentence(sb.toString());
+				contentToDoc.put(sb.toString(), doc);
+				listDoc.put(doc, 0.0);
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
-			suggester.addSentence(sb.toString());
-			contentToDoc.put(sb.toString(), doc);
-			listDoc.put(doc, 0.0);
 		}
 		for(String k:kw){
 			TreeMap<String, Double> tmp = suggester.boostScorer(k);
@@ -62,7 +68,11 @@ public class SolrSearcher implements AnswerSearcher{
 			}
 		}
 		listDoc.remove(null);
-		return listDoc;
+		List<DocRank> ret = new ArrayList<>();
+		for(Doc doc:listDoc.keySet()){
+			ret.add(new DocRank(doc, listDoc.get(doc)));
+		}
+		return ret ;
 	}
 
 //	public static SolrClient createSolrServer() {

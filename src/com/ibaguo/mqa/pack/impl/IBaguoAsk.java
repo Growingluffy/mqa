@@ -10,6 +10,7 @@ import com.ibaguo.mqa.intefaces.KeyWordExtract;
 import com.ibaguo.mqa.intefaces.QuestionClassifier;
 import com.ibaguo.mqa.intefaces.QuestionToAnswer;
 import com.ibaguo.mqa.json.Doc;
+import com.ibaguo.mqa.json.DocRank;
 import com.ibaguo.nlp.MyNLP;
 import com.ibaguo.nlp.dictionary.CoreSynonymDictionary;
 import com.ibaguo.nlp.model.maxent.MaxEnt;
@@ -87,11 +88,12 @@ public class IBaguoAsk implements QuestionToAnswer {
 		QuestionClassifier qc = MaxEnt.loadModel("QMaxEnt.dat");
 		String questionType = qc.eval(kwList);
 		AnswerSearcher as = new SolrSearcher();
-		Map<Doc, Double> kv = as.search(kwList.toArray(new String[kwList.size()]));
+		List<DocRank> kv = as.search(kwList.toArray(new String[kwList.size()]));
 		List<Doc> ans = new ArrayList<>();
 		
-		for(Doc sr:kv.keySet()){
-			Doc aDoc = new Doc(sr.getName());
+		for(DocRank srr:kv){
+			Doc sr = srr.getDoc();
+			Doc aDoc = new Doc(sr.getName(),sr.getId());
 			Map<String, String> data = sr.getFieldVal();
 			for(String pinyinField:data.keySet()){
 				String key = getType(pinyinField);

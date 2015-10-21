@@ -1,9 +1,9 @@
 package com.ibaguo.mqa.intefaces;
 
-import java.util.Map;
+import java.util.List;
 
-import com.ibaguo.mqa.json.Doc;
+import com.ibaguo.mqa.json.DocRank;
 
 public interface AnswerSearcher {
-	Map<Doc, Double> search(String[] kw);
+	List<DocRank> search(String[] kw);
 }

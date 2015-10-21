@@ -220,7 +220,7 @@ public class SolrConnector {
 		if (null == sortfield || null == flag || sortfield.length != flag.length) {
 			return null;
 		}
-		String[] fields = new String[NewDiseaseDescription.class.getDeclaredFields().length-1];
+		String[] fields = new String[NewDiseaseDescription.class.getDeclaredFields().length];
 		List<String> tmp = new ArrayList<>();
 		for(Field f:NewDiseaseDescription.class.getDeclaredFields()){
 			String fieldName = f.getName();
@@ -229,6 +229,7 @@ public class SolrConnector {
 			}
 			tmp.add(fieldName);
 		}
+		tmp.add("id");
 		tmp.toArray(fields);
 		SolrQuery query = null;
 		SolrClient solr = createSolrServer();

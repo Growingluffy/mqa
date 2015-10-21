@@ -4,7 +4,7 @@ import java.util.List;
 
 public class AskResult {
 	String schema;
-	List<Doc> doc;
+	List<Doc> docs;
 	public String getSchema() {
 		return schema;
 	}
@@ -12,15 +12,15 @@ public class AskResult {
 		this.schema = schema;
 	}
 	public List<Doc> getDoc() {
-		return doc;
+		return docs;
 	}
-	public void setDoc(List<Doc> doc) {
-		this.doc = doc;
+	public void setDoc(List<Doc> docs) {
+		this.docs = docs;
 	}
-	public AskResult(String schema, List<Doc> doc) {
+	public AskResult(String schema, List<Doc> docs) {
 		super();
 		this.schema = schema;
-		this.doc = doc;
+		this.docs = docs;
 	}
 
 }
