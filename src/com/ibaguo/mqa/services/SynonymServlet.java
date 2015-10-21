@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.ibaguo.mqa.intefaces.KeyWordSynonym;
+import com.ibaguo.mqa.intefaces.WordSynonym;
 import com.ibaguo.mqa.json.JsonWordScore;
 import com.ibaguo.mqa.json.KeywordScore;
 import com.ibaguo.mqa.json.Status;
@@ -31,7 +31,7 @@ public class SynonymServlet extends HttpServlet {
 			response.setContentType("application/json;charset=utf-8");
 			response.setCharacterEncoding("UTF-8");
 			response.setStatus(HttpServletResponse.SC_OK);
-			KeyWordSynonym synonym = new NlpWordSynonym();
+			WordSynonym synonym = new NlpWordSynonym();
 			List<KeywordScore> aa = new ArrayList<>();
 			Map<String, Double> synonymMap = synonym.getSynonymList(word);
 			for(String type:synonymMap.keySet()){

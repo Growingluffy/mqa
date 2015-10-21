@@ -2,6 +2,6 @@ package com.ibaguo.mqa.intefaces;
 
 import java.util.Map;
 
-public interface KeyWordSynonym {
+public interface WordSynonym {
 	Map<String,Double> getSynonymList(String word);
 }
