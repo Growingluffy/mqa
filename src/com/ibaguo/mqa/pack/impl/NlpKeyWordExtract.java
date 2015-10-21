@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map.Entry;
 
 import com.ibaguo.mqa.intefaces.KeyWordExtract;
+import com.ibaguo.mqa.json.KeywordScore;
 import com.ibaguo.mqa.util.Utils;
 import com.ibaguo.nlp.MyNLP;
 

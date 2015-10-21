@@ -1,7 +1,7 @@
 package com.ibaguo.mqa.intefaces;
 
-import java.util.List;
+import java.util.Map;
 
 public interface KeyWordSynonym {
-	List<String> getSynonymList(String word,boolean sortDesc);
+	Map<String,Double> getSynonymList(String word);
 }

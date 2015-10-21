@@ -1,10 +1,9 @@
 package com.ibaguo.mqa.intefaces;
 
-import java.util.List;
+import java.util.Map;
 
-import com.ibaguo.mqa.solr.SolrReturn;
+import com.ibaguo.mqa.json.Doc;
 
 public interface AnswerSearcher {
-	List<SolrReturn> search(List<String> key, int start, int count, boolean sortDesc);
-	List<SolrReturn> search(List<String> key, boolean sortDesc);
+	Map<Doc, Double> search(String[] kw);
 }

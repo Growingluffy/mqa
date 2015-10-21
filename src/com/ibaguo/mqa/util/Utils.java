@@ -7,14 +7,15 @@ import java.util.List;
 import java.util.Map;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 public class Utils {
 	private static final String SEP1 = "=";  
     private static final String SEP2 = ",";  
   
     public static String toJson(Object obj){
-    	Gson gson = new Gson();  
-        return gson.toJson(obj);
+    	Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        return  gson.toJson(obj);
     }
     
     public static <T> T fromJson(String str, Type type) {  

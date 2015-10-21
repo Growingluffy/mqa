@@ -9,7 +9,7 @@ import com.ibaguo.mqa.intefaces.AnswerSearcher;
 import com.ibaguo.mqa.intefaces.KeyWordExtract;
 import com.ibaguo.mqa.intefaces.QuestionClassifier;
 import com.ibaguo.mqa.intefaces.QuestionToAnswer;
-import com.ibaguo.mqa.solr.SolrReturn;
+import com.ibaguo.mqa.json.Doc;
 import com.ibaguo.nlp.MyNLP;
 import com.ibaguo.nlp.dictionary.CoreSynonymDictionary;
 import com.ibaguo.nlp.model.maxent.MaxEnt;
@@ -80,30 +80,27 @@ public class IBaguoAsk implements QuestionToAnswer {
 		return map.get(pinyinField);
 	}
 
-	public static void main(String[] args) {
-		new IBaguoAsk().makeQa("溃疡病穿孔有哪些表现？");
-	}
-
 	@Override
-	public List<String> makeQa(String q) {
+	public List<Doc> makeQa(String q) {
 		KeyWordExtract kwe = new NlpKeyWordExtract();
 		List<String> kwList = kwe.extractKeyword(q, 3);
 		QuestionClassifier qc = MaxEnt.loadModel("QMaxEnt.dat");
 		String questionType = qc.eval(kwList);
 		AnswerSearcher as = new SolrSearcher();
-		List<SolrReturn> kv = as.search(kwList, true);
-		List<String> ans = new ArrayList<>();
+		Map<Doc, Double> kv = as.search(kwList.toArray(new String[kwList.size()]));
+		List<Doc> ans = new ArrayList<>();
 		
-		for(SolrReturn sr:kv){
-//			System.out.println(sr.name);
-			Map<String, String> data = sr.getData();
+		for(Doc sr:kv.keySet()){
+			Doc aDoc = new Doc(sr.getName());
+			Map<String, String> data = sr.getFieldVal();
 			for(String pinyinField:data.keySet()){
 				String key = getType(pinyinField);
 				if(key.equals(questionType)){
-					ans.add(sr.getData().get(pinyinField));
-//					System.out.println(key+"\t"+sr.getData().get(pinyinField));
+					aDoc.putFieldVal(key, sr.getFieldVal().get(pinyinField));
+//					ans.add(sr.getFieldVal().get(pinyinField));
 				}
 			}
+			ans.add(aDoc);
 		}
 		return ans;
 	}
