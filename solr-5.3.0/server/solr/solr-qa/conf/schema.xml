@@ -1384,8 +1384,8 @@
     </fieldType>
 	
 	<fieldType name="text_mqa" class="solr.TextField">
-		<analyzer type="index" isMaxWordLength="false" class="in.thyferny.lucene.MyNLPAnalyzer"/>
-		<analyzer type="query" isMaxWordLength="true" class="in.thyferny.lucene.MyNLPAnalyzer"/>
+		<analyzer type="index" isMaxWordLength="false" class="com.ibaguo.lucene.MyNLPAnalyzer"/>
+		<analyzer type="query" isMaxWordLength="true" class="com.ibaguo.lucene.MyNLPAnalyzer"/>
 	</fieldType>
 
   
