@@ -48,11 +48,8 @@ public class Suggester implements ISuggester
         }
     }
 
-    @Override
-    public List<String> suggest(String key, int size)
-    {
-        List<String> resultList = new ArrayList<String>(size);
-        TreeMap<String, Double> scoreMap = new TreeMap<String, Double>();
+    public TreeMap<String,Double> boostScorer(String key){
+    	TreeMap<String, Double> scoreMap = new TreeMap<String, Double>();
         for (BaseScorer scorer : scorerList)
         {
             Map<String, Double> map = scorer.computeScore(key);
@@ -64,7 +61,16 @@ public class Suggester implements ISuggester
                 scoreMap.put(entry.getKey(), score / max + entry.getValue() * scorer.boost);
             }
         }
-        for (Map.Entry<Double, Set<String>> entry : sortScoreMap(scoreMap).entrySet())
+        return scoreMap;
+    }
+    
+    @Override
+    public List<String> suggest(String key, int size)
+    {
+        List<String> resultList = new ArrayList<String>(size);
+        
+        TreeMap<String, Double> scoreMap = boostScorer(key);
+		for (Map.Entry<Double, Set<String>> entry : sortScoreMap(scoreMap).entrySet())
         {
             for (String sentence : entry.getValue())
             {

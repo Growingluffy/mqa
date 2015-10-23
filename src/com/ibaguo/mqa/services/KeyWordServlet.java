@@ -1,7 +1,9 @@
 package com.ibaguo.mqa.services;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -10,6 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.ibaguo.mqa.intefaces.KeyWordExtract;
+import com.ibaguo.mqa.json.JsonWord;
+import com.ibaguo.mqa.json.Status;
 import com.ibaguo.mqa.pack.impl.NlpKeyWordExtract;
 import com.ibaguo.mqa.util.Utils;
 import com.ibaguo.nlp.MyNLP;
@@ -30,7 +34,8 @@ public class KeyWordServlet extends HttpServlet {
 			response.setStatus(HttpServletResponse.SC_OK);
 			KeyWordExtract kwe = new NlpKeyWordExtract();
 			List<String> kwList = kwe.extractKeyword(sent, rNum);
-			response.getWriter().println("<h1>" + Utils.toJson(kwList) + "</h1>");
-			response.getWriter().println("session=" + request.getSession(true).getId());
+			String now = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+			Status status = new Status(1, "Success", now);
+			response.getWriter().println(Utils.toJson(new JsonWord(status, kwList)));
 		}
 	}

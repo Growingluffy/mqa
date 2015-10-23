@@ -22,13 +22,24 @@ public class TextRankKeyword extends KeywordExtractor
     {
         TextRankKeyword textRankKeyword = new TextRankKeyword();
         textRankKeyword.nKeyword = size;
-
         return textRankKeyword.getKeyword(document);
     }
 
     public List<String> getKeyword(String content)
     {
-        List<Term> termList = StandardTokenizer.segment(content);
+        List<Map.Entry<String, Float>> entryList = rankWordScore(content);
+//        System.out.println(entryList);
+        int limit = Math.min(nKeyword, entryList.size());
+        List<String> result = new ArrayList<String>(limit);
+        for (int i = 0; i < limit; ++i)
+        {
+            result.add(entryList.get(i).getKey()) ;
+        }
+        return result;
+    }
+
+    public static List<Map.Entry<String, Float>> rankWordScore(String content) {
+		List<Term> termList = StandardTokenizer.segment(content);
         List<String> wordList = new ArrayList<String>();
         for (Term t : termList)
         {
@@ -37,7 +48,6 @@ public class TextRankKeyword extends KeywordExtractor
                 wordList.add(t.word);
             }
         }
-//        System.out.println(wordList);
         Map<String, Set<String>> words = new TreeMap<String, Set<String>>();
         Queue<String> que = new LinkedList<String>();
         for (String w : wordList)
@@ -97,14 +107,7 @@ public class TextRankKeyword extends KeywordExtractor
                 return o2.getValue().compareTo(o1.getValue());
             }
         });
-//        System.out.println(entryList);
-        int limit = Math.min(nKeyword, entryList.size());
-        List<String> result = new ArrayList<String>(limit);
-        for (int i = 0; i < limit; ++i)
-        {
-            result.add(entryList.get(i).getKey()) ;
-        }
-        return result;
-    }
+		return entryList;
+	}
 
 }

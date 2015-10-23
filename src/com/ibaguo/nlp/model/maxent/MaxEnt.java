@@ -73,6 +73,10 @@ public class MaxEnt implements Serializable,QuestionClassifier
         return (MaxEnt)temp;
     }
     
+    public MaxEnt initFromFile(String path){
+    	return loadModel(path);
+    }
+    
     public void loadCSV(String path) throws IOException
     {
     	Segment segment = MyNLP.newSegment();
@@ -251,7 +255,7 @@ public class MaxEnt implements Serializable,QuestionClassifier
     {
         for (int i = 0; i < w1.length; ++i)
         {
-            if (Math.abs(w1[i] - w2[i]) >= 0.01)    // 收敛�?�?0.01可自行调�?
+            if (Math.abs(w1[i] - w2[i]) >= 0.01)    // convergence
                 return false;
         }
         return true;

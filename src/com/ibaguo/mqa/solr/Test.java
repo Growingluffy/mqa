@@ -2,6 +2,7 @@ package com.ibaguo.mqa.solr;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -43,16 +44,14 @@ public class Test {
 
 		// trainSaveQTMaxEnt();
 //		trainSaveQTMaxEnt();
-//		loadMQAPredictMaxEnt();
-		 for(Field f:NewDiseaseDescription.class.getDeclaredFields()){
-				String fieldName = f.getName();
-				if(fieldName.equals("serialVersionUID")){
-					continue;
-				}
-				
-				
-					System.out.println(fieldName);	
-		 }
+		loadMQAPredictMaxEnt();
+//		 for(Field f:NewDiseaseDescription.class.getDeclaredFields()){
+//				String fieldName = f.getName();
+//				if(fieldName.equals("serialVersionUID")){
+//					continue;
+//				}
+//				System.out.println(fieldName);	
+//		 }
 //		 SynonymItem lst = CoreSynonymDictionary.get("腹泻");
 //		 for(Synonym kk:Collections.sort(lst.synonymList)){
 //			 System.out.println(kk.getRealWord());
@@ -97,18 +96,20 @@ public class Test {
 		String path = "data/83.txt";
 		MaxEnt maxEnt = new MaxEnt();
 		maxEnt.loadCSV(path);
-		maxEnt.train(5);
+		maxEnt.train(50);
 		maxEnt.save("QMaxEnt.dat");
 	}
 
 	public static void loadMQAPredictMaxEnt() throws IOException {
 		MaxEnt maxEnt = MaxEnt.loadModel("QMaxEnt.dat");
 		List<String> fieldList = new ArrayList<String>();
-		// fieldList.add("怎么办");
-		// fieldList.add("原因");
+//		 fieldList.add("怎么办");
+//		 fieldList.add("原因");
+//		 fieldList.add("为什么");
+		fieldList.add("头疼");
 		// fieldList.add("喉咙肥大");
-		fieldList.add("如何");
-		fieldList.add("解决");
+//		fieldList.add("如何");
+//		fieldList.add("解决");
 		Map<String, Double> result = maxEnt.predict(fieldList);
 		System.out.println(Utils.mapToString(result));
 		System.out.println(maxEnt.eval(fieldList));
