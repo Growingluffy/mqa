@@ -1,12 +1,12 @@
 package com.ibaguo.mqa.pack.impl;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import com.ibaguo.mqa.intefaces.AnswerSearcher;
-import com.ibaguo.mqa.intefaces.KeyWordExtract;
 import com.ibaguo.mqa.intefaces.QuestionClassifier;
 import com.ibaguo.mqa.intefaces.QuestionToAnswer;
 import com.ibaguo.mqa.json.Doc;
@@ -49,13 +49,23 @@ public class IBaguoAsk implements QuestionToAnswer {
 				"异常变化相关因素", "锻炼步骤及方法", "防治要点", "临床病理类型", "改善方法", "原理", "鉴别诊断", "术前准备", "判断方法", "饮食疗法", "肿瘤个性化治疗的核心",
 				"部位及范围", "骨髓穿刺失败原因", "疗效判定", "肥胖判定", "治疗要点", "测定体重时的注意事项", "矮小症的治疗", "心脑血管疾病的预防", "脊柱骨折分类", "诊断和鉴别诊断",
 				"手术步骤", "降压食品", "痰液处理", "原则内容", "误诊漏诊防范", "手术程序" };
+		
+		System.out.println("\t\t\t\t\t症状\t病因\t治疗\t其他\t学术\t药物\t病症\t医院\t医生");
+		DecimalFormat df   = new DecimalFormat("######0.00");  
 		for (String key : TYPE) {
+			System.out.print(key+"\t\t\t\t\t");
 			String pinyinKey = MyNLP.convertToPinyinString(key, "", false);
 			Map<String, Double> similars = new HashMap<>();
 			similars.put("症状", 0.0);
 			similars.put("病因", 0.0);
 			similars.put("治疗", 0.0);
 			similars.put("其他", 0.0);
+			similars.put("学术", 0.0);
+			similars.put("药物", 0.0);
+			similars.put("病症", 0.0);
+			similars.put("医院", 0.0);
+			similars.put("医生", 0.0);
+			
 			List<Term> terms = MyNLP.segment(key);
 			for (String type : similars.keySet()) {
 				for (Term t : terms) {
@@ -64,6 +74,10 @@ public class IBaguoAsk implements QuestionToAnswer {
 						similars.put(type, s);
 					}
 				}
+//				System.out.println();
+			}
+			for(String kk:similars.keySet()){
+				System.out.print(df.format(similars.get(kk))+"\t");
 			}
 			double max = 0;
 			String retType = "";
@@ -73,6 +87,8 @@ public class IBaguoAsk implements QuestionToAnswer {
 					retType = type;
 				}
 			}
+			System.out.print(retType);
+			System.out.println();
 			map.put(pinyinKey, retType);
 		}
 	}
@@ -80,11 +96,18 @@ public class IBaguoAsk implements QuestionToAnswer {
 	static String getType(String pinyinField) {
 		return map.get(pinyinField);
 	}
+	public static void main(String[] args) {
+		getType("gaishu");
+	}
 
 	@Override
 	public List<Doc> makeQa(String q) {
-		KeyWordExtract kwe = new NlpKeyWordExtract();
-		List<String> kwList = kwe.extractKeyword(q, 3);
+//		KeyWordExtract kwe = new NlpKeyWordExtract();
+		List<Term> ktList = MyNLP.segment(q);
+		List<String> kwList = new ArrayList<>();
+		for(Term word:ktList){
+			kwList.add(word.word);
+		}
 		QuestionClassifier qc = MaxEnt.loadModel("QMaxEnt.dat");
 		String questionType = qc.eval(kwList);
 		AnswerSearcher as = new SolrSearcher();

@@ -44,7 +44,7 @@ public class Test {
 
 		// trainSaveQTMaxEnt();
 //		trainSaveQTMaxEnt();
-		loadMQAPredictMaxEnt();
+//		loadMQAPredictMaxEnt();
 //		 for(Field f:NewDiseaseDescription.class.getDeclaredFields()){
 //				String fieldName = f.getName();
 //				if(fieldName.equals("serialVersionUID")){
@@ -60,8 +60,9 @@ public class Test {
 //		System.out.println(CoreSynonymDictionary.get("香蕉"));
 //		System.out.println(CoreSynonymDictionary.get("腹泻"));
 		//
-		// System.out.println("距离0\t" + CoreSynonymDictionary.distance("香蕉",
-		// "苹果"));
+		System.out.println("原因,病因 距离\t" + CoreSynonymDictionary.distance("原因","病因"));
+		System.out.println("处理,病因 距离\t" + CoreSynonymDictionary.distance("处理","病因"));
+		System.out.println("处理,治疗距离\t" + CoreSynonymDictionary.distance("处理","治疗"));
 		// System.out.println("距离1\t" + CoreSynonymDictionary.distance("香蕉",
 		// "�?"));
 		// System.out.println("距离2\t" + CoreSynonymDictionary.distance("病痛",

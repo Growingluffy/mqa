@@ -1,4 +1,4 @@
-package com.ibaguo.mqa.solr;
+package com.ibaguo.mqa.util;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -18,28 +18,29 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import com.ibaguo.mqa.solr.NewDiseaseDescription;
 import com.ibaguo.nlp.MyNLP;
 
 public class XMLReader {
 
 	public static void main(String args[]) {
-//		Map<String, String> fields = fieldList();
-//		for(String s :fields.keySet()){
-//			System.out.println("\""+fields.get(s)+"\",");
-//		}
-		List<NewDiseaseDescription> disease = getDisease();
-		System.out.println(disease);
-		File file =new File("NewDisease.dat");
-        FileOutputStream out;
-        try {
-            out = new FileOutputStream(file);
-            ObjectOutputStream objOut=new ObjectOutputStream(out);
-            objOut.writeObject(disease);
-            objOut.flush();
-            objOut.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+		Map<String, String> fields = fieldList();
+		for(String s :fields.keySet()){
+			System.out.println("\""+fields.get(s)+"\",");
+		}
+//		List<NewDiseaseDescription> disease = getDisease();
+//		System.out.println(disease);
+//		File file =new File("NewDisease.dat");
+//        FileOutputStream out;
+//        try {
+//            out = new FileOutputStream(file);
+//            ObjectOutputStream objOut=new ObjectOutputStream(out);
+//            objOut.writeObject(disease);
+//            objOut.flush();
+//            objOut.close();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
 	}
 
 	private static Map<String, String> fieldList() {

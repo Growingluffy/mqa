@@ -76,7 +76,6 @@ public class TextRankKeyword extends KeywordExtractor
                 }
             }
         }
-//        System.out.println(words);
         Map<String, Float> score = new HashMap<String, Float>();
         for (int i = 0; i < max_iter; ++i)
         {

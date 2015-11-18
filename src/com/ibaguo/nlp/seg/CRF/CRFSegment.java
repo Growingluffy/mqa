@@ -22,6 +22,10 @@ import com.ibaguo.nlp.utility.CharacterHelper;
 
 public class CRFSegment extends CharacterBasedGenerativeModelSegment
 {
+	public static void main(String[] args) {
+		List<Term> terms = new CRFSegment().segSentence("类CompilerString是公共的, 应在名为 CompilerString.java 的文件中声明".toCharArray());
+		System.out.println(terms);
+	}
 
     @Override
     protected List<Term> segSentence(char[] sentence)
