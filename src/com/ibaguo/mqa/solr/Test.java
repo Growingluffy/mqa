@@ -25,7 +25,7 @@ public class Test {
 		// List<String> keywordList = MyNLP.extractKeyword(content, 3);
 		// System.out.println(keywordList);
 		//
-		 Segment segment = MyNLP.newSegment();
+//		 Segment segment = MyNLP.newSegment();
 		// segment.enableIndexMode(true);
 		// segment.enablePartOfSpeechTagging(false);
 		// segment.enableNameRecognize(true);
@@ -35,7 +35,7 @@ public class Test {
 		// segment.enableCustomDictionary(false);
 		// segment.enableJapaneseNameRecognize(false);
 		// segment.enableAllNamedEntityRecognize(true);
-		 List<Term> termList = segment.seg("中文分词测试 这是一段普通的文本");
+//		 List<Term> termList = segment.seg("中文分词测试 这是一段普通的文本");
 		// System.out.println(termList);
 
 		// trainSaveMaxEnt();
@@ -60,9 +60,9 @@ public class Test {
 //		System.out.println(CoreSynonymDictionary.get("香蕉"));
 //		System.out.println(CoreSynonymDictionary.get("腹泻"));
 		//
-		System.out.println("原因,病因 距离\t" + CoreSynonymDictionary.distance("原因","病因"));
-		System.out.println("处理,病因 距离\t" + CoreSynonymDictionary.distance("处理","病因"));
-		System.out.println("处理,治疗距离\t" + CoreSynonymDictionary.distance("处理","治疗"));
+//		System.out.println("原因,病因 距离\t" + CoreSynonymDictionary.distance("原因","病因"));
+//		System.out.println("处理,病因 距离\t" + CoreSynonymDictionary.distance("处理","病因"));
+//		System.out.println("处理,治疗距离\t" + CoreSynonymDictionary.distance("处理","治疗"));
 		// System.out.println("距离1\t" + CoreSynonymDictionary.distance("香蕉",
 		// "�?"));
 		// System.out.println("距离2\t" + CoreSynonymDictionary.distance("病痛",
@@ -83,14 +83,23 @@ public class Test {
 		// "山路"));
 		// System.out.println("距离X\t" + CoreSynonymDictionary.distance("香蕉",
 		// "橙汁"));
+		trainSaveQSNKWDZZMaxEnt();
 	}
 
-	public static void trainSaveMaxEnt() throws IOException {
-		String path = "data/questions-train.txt";
+//	public static void trainSaveMaxEnt() throws IOException {
+//		String path = "data/questions-train.txt";
+//		MaxEnt maxEnt = new MaxEnt();
+//		maxEnt.loadData(path);
+//		maxEnt.train(5);
+//		maxEnt.save("MaxEnt.dat");
+//	}
+	
+	public static void trainSaveQSNKWDZZMaxEnt() throws IOException {
+		String path = "data/Disease2Ques";
 		MaxEnt maxEnt = new MaxEnt();
-		maxEnt.loadData(path);
-		maxEnt.train(5);
-		maxEnt.save("MaxEnt.dat");
+		maxEnt.loadData(path,0,1,"\t");
+		maxEnt.train(20);
+		maxEnt.save("QSNKW-DZZ.dat");
 	}
 
 	public static void trainSaveQTMaxEnt() throws IOException {

@@ -134,17 +134,17 @@ public class MaxEnt implements Serializable,QuestionClassifier
             if (labels.indexOf(label) == -1) labels.add(label);
             line = br.readLine();
         }
-        File fl = new File("d:/tmp2Chuge_fl");
-        FileWriter fw1 = new FileWriter(fl);
-        for(int i=0;i<featureList.size();i++){
-        	fw1.write(featureList.get(i).toString()+"\t"+featureCountList.get(i)+"\n");
-        }
-        fw1.flush();
-        fw1.close();
+//        File fl = new File("d:/tmp2Chuge_fl");
+//        FileWriter fw1 = new FileWriter(fl);
+//        for(int i=0;i<featureList.size();i++){
+//        	fw1.write(featureList.get(i).toString()+"\t"+featureCountList.get(i)+"\n");
+//        }
+//        fw1.flush();
+//        fw1.close();
         br.close();
     }
     
-    public void loadData(String path) throws IOException
+    public void loadData(String srcFilePath,int lablePos,int sentPos,String seperator) throws IOException
     {
     	Segment segment = MyNLP.newSegment();//启用分词器训�?
 		segment.enableIndexMode(true);
@@ -157,12 +157,13 @@ public class MaxEnt implements Serializable,QuestionClassifier
 		segment.enableJapaneseNameRecognize(false);
 		segment.enableAllNamedEntityRecognize(true);
 		
-        BufferedReader br = new BufferedReader(new FileReader(new File(path)));
+        BufferedReader br = new BufferedReader(new FileReader(new File(srcFilePath)));
         String line = br.readLine();
+        int progressIndex=0;
         while (line != null)
         {
-        	List<Term> segs = segment.seg(line);
-            String label = segs.get(0).word;
+        	List<Term> segs = segment.seg(line.split(seperator)[sentPos]);
+            String label = line.split(seperator)[lablePos];
             int length = segs.size();
             List<String> fieldList = new ArrayList<String>();
             for (int i = 2; i < length; ++i)
@@ -188,6 +189,8 @@ public class MaxEnt implements Serializable,QuestionClassifier
             instanceList.add(instance);
             if (labels.indexOf(label) == -1) labels.add(label);
             line = br.readLine();
+            progressIndex++;
+            System.out.println("Progress"+progressIndex+"/306866");
         }
         br.close();
     }
