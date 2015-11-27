@@ -134,6 +134,7 @@ public class MaxEnt implements Serializable,QuestionClassifier
             if (labels.indexOf(label) == -1) labels.add(label);
             line = br.readLine();
         }
+        
 //        File fl = new File("d:/tmp2Chuge_fl");
 //        FileWriter fw1 = new FileWriter(fl);
 //        for(int i=0;i<featureList.size();i++){
@@ -162,6 +163,7 @@ public class MaxEnt implements Serializable,QuestionClassifier
         int progressIndex=0;
         while (line != null)
         {
+        	try{
         	List<Term> segs = segment.seg(line.split(seperator)[sentPos]);
             String label = line.split(seperator)[lablePos];
             int length = segs.size();
@@ -191,10 +193,13 @@ public class MaxEnt implements Serializable,QuestionClassifier
             line = br.readLine();
             progressIndex++;
             System.out.println("Progress"+progressIndex+"/306866");
+        	}
+        	catch(Exception e){
+        		e.printStackTrace();
+        	}
         }
         br.close();
     }
-
     
     public void train(int maxIt)
     {
@@ -211,7 +216,7 @@ public class MaxEnt implements Serializable,QuestionClassifier
         double[] lastWeight = new double[weight.length];  // 上次迭代的权�?
         for (int i = 0; i < maxIt; ++i)
         {
-        	long start = System.currentTimeMillis();
+//        	long start = System.currentTimeMillis();
         	System.out.print("Iteration " + i+":");
             computeModeE(modelE);
             for (int w = 0; w < weight.length; w++)
@@ -219,8 +224,8 @@ public class MaxEnt implements Serializable,QuestionClassifier
                 lastWeight[w] = weight[w];
                 weight[w] += 1.0 / C * Math.log(empiricalE[w] / modelE[w]);
             }
-            long end = System.currentTimeMillis();
-            System.out.println(end-start+"ms");
+//            long end = System.currentTimeMillis();
+//            System.out.println(end-start+"ms");
             if (checkConvergence(lastWeight, weight)) break;
         }
     }
@@ -270,6 +275,7 @@ public class MaxEnt implements Serializable,QuestionClassifier
         Arrays.fill(modelE, 0.0f);
         for (int i = 0; i < instanceList.size(); ++i)
         {
+//        	long start = System.currentTimeMillis();
             List<String> fieldList = instanceList.get(i).fieldList;
             //计算当前样本X对应�?有类别的概率
             double[] pro = calProb(fieldList);
@@ -283,6 +289,8 @@ public class MaxEnt implements Serializable,QuestionClassifier
                         modelE[index] += pro[k] * (1.0 / instanceList.size());
                 }
             }
+//            long end = System.currentTimeMillis();
+//            System.out.println(i+"/" + instanceList.size() +":"+ (end-start)+"ms");
         }
     }
 

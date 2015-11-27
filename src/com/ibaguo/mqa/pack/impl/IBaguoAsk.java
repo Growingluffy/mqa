@@ -31,7 +31,6 @@ public class IBaguoAsk implements QuestionToAnswer {
 			}else{
 				String pinyinKey = MyNLP.convertToPinyinString(bbx[i].trim(), "", false);
 				newMap.put(pinyinKey, aax[i].replaceAll("^\\d+", ""));
-//				System.out.println(bbx[i]+"\t"+aax[i].replaceAll("^\\d+", ""));
 			}
 		}
 	}
@@ -113,7 +112,8 @@ public class IBaguoAsk implements QuestionToAnswer {
 //	}
 	
 	static String getNewType(String pinyinField){
-		return newMap.get(pinyinField);
+		String newType = newMap.get(pinyinField);
+		return newType!=null?newType:"";
 	}
 	public static void main(String[] args) {
 		getNewType("jiancha");
