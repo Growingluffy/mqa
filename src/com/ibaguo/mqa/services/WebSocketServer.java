@@ -74,6 +74,7 @@ public class WebSocketServer {
 		context.addServlet(new ServletHolder(new AskServlet()), "/ask");
 		context.addServlet(new ServletHolder(new SynonymServlet()), "/synonym");
 		context.addServlet(new ServletHolder(new RankWordServlet()), "/rankword");
+		context.addServlet(new ServletHolder(new AskServlet2()), "/ask2");
 		server.start();
 		context.dumpStdErr();
 		server.join();

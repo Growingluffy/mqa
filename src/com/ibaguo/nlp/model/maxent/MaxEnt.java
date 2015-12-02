@@ -164,11 +164,11 @@ public class MaxEnt implements Serializable,QuestionClassifier
         while (line != null)
         {
         	try{
-        	List<Term> segs = segment.seg(line.split(seperator)[sentPos]);
+        	List<Term> segs = segment.seg(MyNLP.extractSummary(line.split(seperator)[sentPos], 1).get(0));
             String label = line.split(seperator)[lablePos];
             int length = segs.size();
             List<String> fieldList = new ArrayList<String>();
-            for (int i = 2; i < length; ++i)
+            for (int i = 0; i < length; ++i)
             {
             	if(segs.get(i).word.trim().equals("")){
             		continue;
@@ -275,7 +275,6 @@ public class MaxEnt implements Serializable,QuestionClassifier
         Arrays.fill(modelE, 0.0f);
         for (int i = 0; i < instanceList.size(); ++i)
         {
-//        	long start = System.currentTimeMillis();
             List<String> fieldList = instanceList.get(i).fieldList;
             //计算当前样本X对应�?有类别的概率
             double[] pro = calProb(fieldList);
@@ -289,8 +288,7 @@ public class MaxEnt implements Serializable,QuestionClassifier
                         modelE[index] += pro[k] * (1.0 / instanceList.size());
                 }
             }
-//            long end = System.currentTimeMillis();
-//            System.out.println(i+"/" + instanceList.size() +":"+ (end-start)+"ms");
+          System.out.println(i);
         }
     }
 

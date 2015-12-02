@@ -2,23 +2,22 @@ package com.ibaguo.mqa.solr;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.lang.reflect.Field;
+import java.io.ObjectOutputStream;
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
-
-import org.apache.solr.common.SolrInputDocument;
 
 import com.ibaguo.mqa.util.Utils;
 import com.ibaguo.nlp.MyNLP;
 import com.ibaguo.nlp.model.maxent.MaxEnt;
+import com.ibaguo.nlp.seg.Segment;
+import com.ibaguo.nlp.seg.common.Term;
 
 public class Test {
 	public static void main(String[] args) throws IOException, NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
@@ -86,7 +85,10 @@ public class Test {
 		// "山路"));
 		// System.out.println("距离X\t" + CoreSynonymDictionary.distance("香蕉",
 		// "橙汁"));
-		loadTrainNewDZZMaxEnt();
+//		loadSaveNewDZZMaxEnt();
+//		loadTrainNewDZZMaxEnt();
+//		loadPredictNewDZZMaxEnt();
+		writeAndFormatted();
 	}
 
 //	public static void trainSaveMaxEnt() throws IOException {
@@ -117,57 +119,137 @@ public class Test {
 		String newType = newMap.get(pinyinField);
 		return newType!=null?newType:"";
 	}
+	public static List<QAObj> load300k(){
+		Object temp=null;
+        File file =new File("QAObj.dat");
+        FileInputStream in;
+        try {
+            in = new FileInputStream(file);
+            ObjectInputStream objIn=new ObjectInputStream(in);
+            temp=objIn.readObject();
+            objIn.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return (List<QAObj>)temp;
+	}
+	
+	public static List<QAObjTagged> load300kTagged(){
+		Object temp=null;
+        File file =new File("QAObj2.dat");
+        FileInputStream in;
+        try {
+            in = new FileInputStream(file);
+            ObjectInputStream objIn=new ObjectInputStream(in);
+            temp=objIn.readObject();
+            objIn.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return (List<QAObjTagged>)temp;
+	}
+	
+	public static void writeAndFormatted(){
+		List<QAObjTagged> objs = load300kTagged();
+		int index = 0;
+		for(QAObjTagged obj:objs){
+			String fileName = String.format("%06d", index);
+			String content = "\""+obj.question + "\"\t\"" + obj.answer.replaceAll("\n", "").trim() + "\"\t\"" + obj.disease_name + "\"\t\"" + obj.doctor + "\"\t\"" + obj.position + "\"\t\"" + obj.hospital + "\"\t\"" + obj.resume.replaceAll("\n", "").trim() + "\"\t\"" + obj.tag+"\"";
+//			WriterThread wt = new WriterThread("qa-tagged/"+fileName,content);
+//			wt.start();
+			try {
+				FileWriter fw = new FileWriter("qa-tagged/"+fileName);
+				fw.write(content);
+				fw.flush();
+				fw.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			index++;
+		}
+	}
+	
+	public static void outPutDzzName(){
+		try {
+			List<QAObj> objs = load300k();
+			FileWriter file = new FileWriter("dzz-name.txt");
+			for(QAObj obj:objs){
+				file.write(obj.getDisease_name()+"\n");
+			}
+			file.flush();
+			file.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static void loadPredictNewDZZMaxEnt() throws IOException {
+		MaxEnt maxEnt = MaxEnt.loadModel("NEWDZZTYP-Trained.dat");
+		Segment segment = MyNLP.newSegment();//启用分词器训�?
+		segment.enableIndexMode(true);
+		segment.enablePartOfSpeechTagging(false);
+		segment.enableNameRecognize(true);
+		segment.enablePlaceRecognize(true);
+		segment.enableOrganizationRecognize(true);
+		segment.enableTranslatedNameRecognize(false);
+		segment.enableCustomDictionary(false);
+		segment.enableJapaneseNameRecognize(false);
+		segment.enableAllNamedEntityRecognize(true);
+		
+		List<QAObj> objs = load300k();
+		List<QAObjTagged> objTaggeds = new ArrayList<>();
+		int index = 0;
+		FileWriter fw = new FileWriter("predict.txt");
+		for(QAObj obj:objs){
+			try {
+				QAObjTagged tagged = new QAObjTagged();
+				String question = obj.getQuestion();
+				String answer = obj.getAnswer();
+				List<Term> segs = segment.seg(MyNLP.extractSummary(answer, 1).get(0));
+				List<String> toPred = new ArrayList<>();
+				for(Term t:segs){
+					toPred.add(t.word);
+				}
+				Map<String, Double> map = maxEnt.predict(toPred);
+				String tag = maxEnt.eval(toPred);
+				tagged.from(obj, maxEnt.eval(toPred));
+				objTaggeds.add(tagged);
+				System.out.println(index++);
+				fw.write(tag+"~,~"+answer+"\n");
+				fw.flush();
+			} catch (Exception e) {
+//				e.printStackTrace();
+			}
+		}
+		File file = new File("QAObj2.dat");
+		FileOutputStream out;
+		try {
+			out = new FileOutputStream(file);
+			ObjectOutputStream objOut = new ObjectOutputStream(out);
+			objOut.writeObject(objTaggeds);
+			objOut.flush();
+			objOut.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 	
 	public static void loadTrainNewDZZMaxEnt() throws IOException {
 		MaxEnt maxEnt = MaxEnt.loadModel("NEWDZZTYP.dat");
-		maxEnt.train(12);
+		maxEnt.train(10);
 		maxEnt.save("NEWDZZTYP-Trained.dat");
 //		List<String> fieldList = new ArrayList<String>();
 	}
 	
-	public static void trainSaveNewDZZMaxEnt() throws IOException, NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+	public static void loadSaveNewDZZMaxEnt() throws IOException, NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 		String path = "data/NewDisease2Type";
-//		Object temp = null;
-//		File file = new File("NewDisease.dat");
-//		FileInputStream in;
-//		try {
-//			in = new FileInputStream(file);
-//			ObjectInputStream objIn = new ObjectInputStream(in);
-//			temp = objIn.readObject();
-//			objIn.close();
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		} catch (ClassNotFoundException e) {
-//			e.printStackTrace();
-//		}
-//		List<NewDiseaseDescription> dds = (List<NewDiseaseDescription>) temp;
-//
-//		FileWriter fw = new FileWriter(new File(path));
-//		for (NewDiseaseDescription dd : dds) {
-//			for(Field f:NewDiseaseDescription.class.getDeclaredFields()){
-//				String fieldName = f.getName();
-//				if(fieldName.equals("serialVersionUID")){
-//					continue;
-//				}
-//				String first = fieldName.substring(0, 1).toUpperCase();
-//				String rest = fieldName.substring(1, fieldName.length());
-//				String upperCaseFieldName = new StringBuffer(first).append(rest).toString(); 
-//				Method method = NewDiseaseDescription.class.getMethod("get"+upperCaseFieldName, null);
-//				String val = method.invoke(dd, null).toString();
-//				String newType = getNewType(fieldName);
-//				if(val!=null&&!val.equals("")&&!newType.equals("")){
-//					fw.write(newType+"~,~"+val.replaceAll("\n", "").trim()+"\n");
-//				}
-//			}
-//			fw.flush();
-//		}
-//		fw.flush();
-//		fw.close();
-		
 		MaxEnt maxEnt = new MaxEnt();
 		maxEnt.loadData(path,0,1,"~,~");
 		maxEnt.save("NEWDZZTYP.dat");
-//		maxEnt.train(20);
 	}
 	
 	public static void trainSaveQSNKWDZZMaxEnt() throws IOException {
