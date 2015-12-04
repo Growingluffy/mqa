@@ -86,9 +86,9 @@ public class Test {
 		// System.out.println("距离X\t" + CoreSynonymDictionary.distance("香蕉",
 		// "橙汁"));
 //		loadSaveNewDZZMaxEnt();
-//		loadTrainNewDZZMaxEnt();
+		loadTrainNewDZZMaxEnt();
 //		loadPredictNewDZZMaxEnt();
-		writeAndFormatted();
+//		writeAndFormatted();
 	}
 
 //	public static void trainSaveMaxEnt() throws IOException {
@@ -239,17 +239,17 @@ public class Test {
 	}
 	
 	public static void loadTrainNewDZZMaxEnt() throws IOException {
-		MaxEnt maxEnt = MaxEnt.loadModel("NEWDZZTYP.dat");
-		maxEnt.train(10);
-		maxEnt.save("NEWDZZTYP-Trained.dat");
+		MaxEnt maxEnt = MaxEnt.loadModel("NEWDZZTYP2.dat");
+		maxEnt.train(20);
+		maxEnt.save("NEWDZZTYP-Trained2.dat");
 //		List<String> fieldList = new ArrayList<String>();
 	}
 	
 	public static void loadSaveNewDZZMaxEnt() throws IOException, NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
-		String path = "data/NewDisease2Type";
+		String path = "data/NewDzz2Type.txt";
 		MaxEnt maxEnt = new MaxEnt();
 		maxEnt.loadData(path,0,1,"~,~");
-		maxEnt.save("NEWDZZTYP.dat");
+		maxEnt.save("NEWDZZTYP2.dat");
 	}
 	
 	public static void trainSaveQSNKWDZZMaxEnt() throws IOException {
