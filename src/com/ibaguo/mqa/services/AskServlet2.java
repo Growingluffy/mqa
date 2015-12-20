@@ -30,7 +30,8 @@ public class AskServlet2 extends HttpServlet {
 		response.setContentType("application/json;charset=utf-8");
 		response.setCharacterEncoding("UTF-8");
 		response.setStatus(HttpServletResponse.SC_OK);
-		QuestionToAnswer qa = new IBaguoAsk2();
+		System.out.println("-1");
+		QuestionToAnswer qa = IBaguoAsk2.getInstance();
 		List<Doc> result = qa.makeQa(sent);
 		String now = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
 		Status status = new Status(1, "Success", now);

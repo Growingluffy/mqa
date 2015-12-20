@@ -1,10 +1,15 @@
 package com.ibaguo.mqa.solr;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.lang.reflect.InvocationTargetException;
@@ -86,8 +91,8 @@ public class Test {
 		// System.out.println("距离X\t" + CoreSynonymDictionary.distance("香蕉",
 		// "橙汁"));
 //		loadSaveNewDZZMaxEnt();
-		loadTrainNewDZZMaxEnt();
-//		loadPredictNewDZZMaxEnt();
+//		loadTrainNewDZZMaxEnt();
+		loadPredictNewDZZMaxEnt();
 //		writeAndFormatted();
 	}
 
@@ -136,6 +141,51 @@ public class Test {
         return (List<QAObj>)temp;
 	}
 	
+	public static List<String> load3k() throws FileNotFoundException{
+		List<String> src = new ArrayList<>();
+        FileReader file =new FileReader("3k.txt");
+        BufferedReader in = new BufferedReader(file);
+        try {
+            String tmp;
+			while((tmp = in.readLine())!=null){
+            	src.add(tmp);
+            }
+            in.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } 
+        return src;
+	}
+	
+	public static List<QAObj2> update300k() throws IOException{
+		Map<String,Integer> q2id = new HashMap<>();
+		InputStream in = new FileInputStream(new File("pp.txt"));
+		InputStreamReader isr = new InputStreamReader(in,"UTF8");
+		BufferedReader br = new BufferedReader(isr);
+		String tmp;
+		while((tmp = br.readLine())!=null){
+			try {
+				q2id.put(tmp.split("~")[1],Integer.parseInt(tmp.split("~")[0]));
+			} catch (Exception e) {
+				System.out.println(tmp);
+			}
+		}
+		br.close();
+		List<QAObj> objs = load300k();
+		List<QAObj2> obj2s = new ArrayList<>();
+		for(QAObj obj:objs){
+			QAObj2 o2 = new QAObj2();
+			Integer id = q2id.get(obj.question);
+			if(id==null){
+				System.out.println(obj.question);
+				continue;
+			}
+			o2.from(obj,id.intValue());
+			obj2s.add(o2);
+		}
+		return obj2s;
+	}
+	
 	public static List<QAObjTagged> load300kTagged(){
 		Object temp=null;
         File file =new File("QAObj2.dat");
@@ -173,22 +223,22 @@ public class Test {
 		}
 	}
 	
-	public static void outPutDzzName(){
-		try {
-			List<QAObj> objs = load300k();
-			FileWriter file = new FileWriter("dzz-name.txt");
-			for(QAObj obj:objs){
-				file.write(obj.getDisease_name()+"\n");
-			}
-			file.flush();
-			file.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
+//	public static void outPutDzzName(){
+//		try {
+//			List<QAObj> objs = load300k();
+//			FileWriter file = new FileWriter("dzz-name.txt");
+//			for(QAObj obj:objs){
+//				file.write(obj.getDisease_name()+"\n");
+//			}
+//			file.flush();
+//			file.close();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//	}
 	
-	public static void loadPredictNewDZZMaxEnt() throws IOException {
-		MaxEnt maxEnt = MaxEnt.loadModel("NEWDZZTYP-Trained.dat");
+	public static void loadPredict3k() throws IOException {
+		MaxEnt maxEnt = MaxEnt.loadModel("NEWDZZTYP-Trained2.dat");
 		Segment segment = MyNLP.newSegment();//启用分词器训�?
 		segment.enableIndexMode(true);
 		segment.enablePartOfSpeechTagging(false);
@@ -200,48 +250,60 @@ public class Test {
 		segment.enableJapaneseNameRecognize(false);
 		segment.enableAllNamedEntityRecognize(true);
 		
-		List<QAObj> objs = load300k();
+		List<String> objs = load3k();
 		List<QAObjTagged> objTaggeds = new ArrayList<>();
 		int index = 0;
-		FileWriter fw = new FileWriter("predict.txt");
-		for(QAObj obj:objs){
+		FileWriter fw = new FileWriter("predict3k.txt");
+		for(String obj:objs){
 			try {
-				QAObjTagged tagged = new QAObjTagged();
-				String question = obj.getQuestion();
-				String answer = obj.getAnswer();
-				List<Term> segs = segment.seg(MyNLP.extractSummary(answer, 1).get(0));
+//				QAObjTagged tagged = new QAObjTagged();
+				List<Term> segs = segment.seg(MyNLP.extractSummary(obj, 1).get(0));
 				List<String> toPred = new ArrayList<>();
 				for(Term t:segs){
 					toPred.add(t.word);
 				}
 				Map<String, Double> map = maxEnt.predict(toPred);
 				String tag = maxEnt.eval(toPred);
-				tagged.from(obj, maxEnt.eval(toPred));
-				objTaggeds.add(tagged);
-				System.out.println(index++);
-				fw.write(tag+"~,~"+answer+"\n");
+//				tagged.from(obj, maxEnt.eval(toPred));
+//				objTaggeds.add(tagged);
+//				System.out.println(index++);
+				fw.write(tag+"\n");
+//				System.out.println(tag);
 				fw.flush();
 			} catch (Exception e) {
 //				e.printStackTrace();
 			}
 		}
-		File file = new File("QAObj2.dat");
-		FileOutputStream out;
-		try {
-			out = new FileOutputStream(file);
-			ObjectOutputStream objOut = new ObjectOutputStream(out);
-			objOut.writeObject(objTaggeds);
-			objOut.flush();
-			objOut.close();
-		} catch (IOException e) {
-			e.printStackTrace();
+	}
+	
+	public static void loadPredictNewDZZMaxEnt() throws IOException {
+		MaxEnt maxEnt = MaxEnt.loadModel("Q2T-Trained1214.dat");
+		List<QAObj2> objs = update300k();
+		int threadSize = 3;
+		for(int i=0;i<threadSize+1;i++){
+			FileWriter fw = new FileWriter("predict"+i+".txt");
+			WriteThread thread = new WriteThread(fw,i,objs,maxEnt,threadSize);
+			thread.start();
 		}
+//		File file =new File("QAObj2.dat");
+//        FileOutputStream out;
+//        try {
+//            out = new FileOutputStream(file);
+//            ObjectOutputStream objOut=new ObjectOutputStream(out);
+//            objOut.writeObject(objs);
+//            objOut.flush();
+//            objOut.close();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
 	}
 	
 	public static void loadTrainNewDZZMaxEnt() throws IOException {
-		MaxEnt maxEnt = MaxEnt.loadModel("NEWDZZTYP2.dat");
+		String path = "NEXT.txt";
+		MaxEnt maxEnt = new MaxEnt();
+		maxEnt.loadData(path,0,1,"\t");
 		maxEnt.train(20);
-		maxEnt.save("NEWDZZTYP-Trained2.dat");
+		maxEnt.save("Q2T-Trained1214.dat");
 //		List<String> fieldList = new ArrayList<String>();
 	}
 	

@@ -7,25 +7,19 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import com.ibaguo.mqa.intefaces.AnswerSearcher;
-import com.ibaguo.mqa.intefaces.QuestionClassifier;
 import com.ibaguo.mqa.intefaces.QuestionToAnswer;
 import com.ibaguo.mqa.json.Doc;
-import com.ibaguo.mqa.json.DocRank;
 import com.ibaguo.mqa.solr.QAObj;
 import com.ibaguo.mqa.solr.QAScored;
 import com.ibaguo.nlp.MyNLP;
 import com.ibaguo.nlp.corpus.tag.Nature;
 import com.ibaguo.nlp.dictionary.CoreSynonymDictionary;
-import com.ibaguo.nlp.model.maxent.MaxEnt;
-import com.ibaguo.nlp.seg.Segment;
 import com.ibaguo.nlp.seg.common.Term;
 
 public class IBaguoAsk2 implements QuestionToAnswer {
@@ -34,10 +28,19 @@ public class IBaguoAsk2 implements QuestionToAnswer {
 	public static Map<String, String> newMap = new HashMap<>();
 	public static List<QAObj> objs;
 	static Map<String,Integer> dzzName = new HashMap<>();
+	public static IBaguoAsk2 INSTANCE;
+	public static IBaguoAsk2 getInstance(){
+		if(INSTANCE==null){
+			INSTANCE = new IBaguoAsk2();
+		}
+		return INSTANCE;
+	}
 	static{
+//		System.out.println(0);
 		objs = load300k();
+//		System.out.println(1);
 		try {
-			FileReader fr = new FileReader("dzz-name.txt");
+			FileReader fr = new FileReader(System.getProperty("user.dir")+"/dzz-name.txt");
 			BufferedReader br = new BufferedReader(fr);
 			String tmp;
 			while((tmp = br.readLine())!=null){
@@ -97,9 +100,9 @@ public class IBaguoAsk2 implements QuestionToAnswer {
 			}
 			double score = Math.sqrt(sentenceSimilar/index);
 			if(realDzzName.equals(obj.getDisease_name())){
-				score+=0.5;
+				score+=0.3;
 			}
-			System.out.println(Math.sqrt(sentenceSimilar/index));
+//			System.out.println(Math.sqrt(sentenceSimilar/index));
 			if(qascored.size()<size){
 				qascored.add(new QAScored(obj,score));
 			}else{
@@ -121,7 +124,7 @@ public class IBaguoAsk2 implements QuestionToAnswer {
 
 	public static List<QAObj> load300k(){
 		Object temp=null;
-	    File file =new File("QAObj.dat");
+	    File file =new File(System.getProperty("user.dir")+"/QAObj.dat");
 	    FileInputStream in;
 	    try {
 	        in = new FileInputStream(file);
@@ -181,7 +184,7 @@ public class IBaguoAsk2 implements QuestionToAnswer {
 	@Override
 	public List<Doc> makeQa(String q) {
 //		KeyWordExtract kwe = new NlpKeyWordExtract();
-		List<QAScored> out = getSimilarQAObj(q, objs, 5);
+		List<QAScored> out = getSimilarQAObj(q, objs, 10);
 		List<Doc> ans = new ArrayList<>();
 		
 		for(QAScored qas:out){
