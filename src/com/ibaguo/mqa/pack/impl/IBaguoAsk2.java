@@ -68,7 +68,7 @@ public class IBaguoAsk2 implements QuestionToAnswer {
 				}
 			}
 		}
-//		System.out.println();
+		System.out.println(realDzzName);
 	}
 	
 	private static List<QAScored> getSimilarQAObj(String question,List<QAObj> objs,int size) {

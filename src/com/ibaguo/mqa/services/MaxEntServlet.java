@@ -32,7 +32,7 @@ public class MaxEntServlet extends HttpServlet {
 			response.setContentType("application/json;charset=utf-8"); 
 			response.setCharacterEncoding("UTF-8");
 			response.setStatus(HttpServletResponse.SC_OK);
-			QuestionClassifier maxEnt = MaxEnt.loadModel("QMaxEnt.dat");
+			QuestionClassifier maxEnt = MaxEnt.loadModel("NEWDZZTYP-Trained2.dat");
 			Map<String, Double> result = maxEnt.predict(Arrays.asList(kwList));
 			List<ClassificationScore> aa= new ArrayList<>();
 			for(String type:result.keySet()){

@@ -36,7 +36,7 @@ public class MaxEnt implements Serializable, QuestionClassifier {
 
 	private List<String> labels = new ArrayList<String>();
 
-	private double[] weight;
+	private double[] weight = null;
 
 	private int C;
 
@@ -179,7 +179,7 @@ public class MaxEnt implements Serializable, QuestionClassifier {
 				instanceList.add(instance);
 				if (labels.indexOf(label) == -1) labels.add(label);
 				progressIndex++;
-				System.out.println("Progress" + progressIndex + "/306866");
+//				System.out.println("Progress" + progressIndex + "/306866");
 			} catch (Exception e) {
 				// e.printStackTrace();
 			}
@@ -189,10 +189,11 @@ public class MaxEnt implements Serializable, QuestionClassifier {
 
 	public void train(int maxIt) {
 		int size = featureList.size();
-		weight = new double[size]; // 特征权重
 		double[] empiricalE = new double[size]; // 经验期望
 		double[] modelE = new double[size]; // 模型期望
-
+		if(weight==null){
+			weight = new double[size];
+		}
 		for (int i = 0; i < size; ++i) {
 			empiricalE[i] = (double) featureCountList.get(i) / instanceList.size();
 		}
@@ -211,7 +212,7 @@ public class MaxEnt implements Serializable, QuestionClassifier {
 			if (checkConvergence(lastWeight, weight)) break;
 		}
 	}
-
+	
 	@SuppressWarnings("unchecked")
 	public Map<String, Double> predict(List<String> fieldList) {
 		double[] prob = calProb(fieldList);

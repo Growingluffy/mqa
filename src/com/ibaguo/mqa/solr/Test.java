@@ -14,6 +14,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -92,7 +93,29 @@ public class Test {
 		// "橙汁"));
 //		loadSaveNewDZZMaxEnt();
 //		loadTrainNewDZZMaxEnt();
-		loadPredictNewDZZMaxEnt();
+//		System.out.println(loadPredictNewDZZMaxEnt("头晕恶心是怎么回事"));
+		int pres = 0;
+		MaxEnt maxEnt;
+		maxEnt = MaxEnt.loadModel("120Q-Train.dat2");
+		FileReader fr = new FileReader(new File("120-questions-4-train.txt"));
+		BufferedReader br = new BufferedReader(fr);
+		String tmp;
+		while((tmp=br.readLine())!=null){
+			String lable = tmp.split("\t")[0];
+			String qt = tmp.split("\t")[1];
+			List<Term> bb = MyNLP.segment(qt);
+			List<String> cc = new ArrayList<>();
+			for(Term t:bb){
+				cc.add(t.word);
+			}
+			String p = maxEnt.eval(cc);
+			if(p.equals(lable)){
+				pres++;
+				System.out.println(pres);
+			}
+		}
+		br.close();
+		System.out.println(pres*1.0/206817);
 //		writeAndFormatted();
 	}
 
@@ -157,34 +180,34 @@ public class Test {
         return src;
 	}
 	
-	public static List<QAObj2> update300k() throws IOException{
-		Map<String,Integer> q2id = new HashMap<>();
-		InputStream in = new FileInputStream(new File("pp.txt"));
-		InputStreamReader isr = new InputStreamReader(in,"UTF8");
-		BufferedReader br = new BufferedReader(isr);
-		String tmp;
-		while((tmp = br.readLine())!=null){
-			try {
-				q2id.put(tmp.split("~")[1],Integer.parseInt(tmp.split("~")[0]));
-			} catch (Exception e) {
-				System.out.println(tmp);
-			}
-		}
-		br.close();
-		List<QAObj> objs = load300k();
-		List<QAObj2> obj2s = new ArrayList<>();
-		for(QAObj obj:objs){
-			QAObj2 o2 = new QAObj2();
-			Integer id = q2id.get(obj.question);
-			if(id==null){
-				System.out.println(obj.question);
-				continue;
-			}
-			o2.from(obj,id.intValue());
-			obj2s.add(o2);
-		}
-		return obj2s;
-	}
+//	public static List<QAObj2> update300k() throws IOException{
+//		Map<String,Integer> q2id = new HashMap<>();
+//		InputStream in = new FileInputStream(new File("pp.txt"));
+//		InputStreamReader isr = new InputStreamReader(in,"UTF8");
+//		BufferedReader br = new BufferedReader(isr);
+//		String tmp;
+//		while((tmp = br.readLine())!=null){
+//			try {
+//				q2id.put(tmp.split("~")[1],Integer.parseInt(tmp.split("~")[0]));
+//			} catch (Exception e) {
+//				System.out.println(tmp);
+//			}
+//		}
+//		br.close();
+//		List<QAObj> objs = load300k();
+//		List<QAObj2> obj2s = new ArrayList<>();
+//		for(QAObj obj:objs){
+//			QAObj2 o2 = new QAObj2();
+//			Integer id = q2id.get(obj.question);
+//			if(id==null){
+//				System.out.println(obj.question);
+//				continue;
+//			}
+//			o2.from(obj,id.intValue());
+//			obj2s.add(o2);
+//		}
+//		return obj2s;
+//	}
 	
 	public static List<QAObjTagged> load300kTagged(){
 		Object temp=null;
@@ -276,34 +299,33 @@ public class Test {
 		}
 	}
 	
-	public static void loadPredictNewDZZMaxEnt() throws IOException {
-		MaxEnt maxEnt = MaxEnt.loadModel("Q2T-Trained1214.dat");
-		List<QAObj2> objs = update300k();
-		int threadSize = 3;
-		for(int i=0;i<threadSize+1;i++){
-			FileWriter fw = new FileWriter("predict"+i+".txt");
-			WriteThread thread = new WriteThread(fw,i,objs,maxEnt,threadSize);
-			thread.start();
+	public static Map<String, Double> loadPredictNewDZZMaxEnt(String aa) throws IOException {
+//		String path = "120-questions-4-train.txt";
+//		MaxEnt maxEnt = new MaxEnt();
+//		maxEnt.loadData(path,0,1,"\t");
+//		maxEnt.save("120Q-PreTrain.dat");
+		List<Term> bb = MyNLP.segment(aa);
+		List<String> cc = new ArrayList<>();
+		for(Term t:bb){
+			cc.add(t.word);
 		}
-//		File file =new File("QAObj2.dat");
-//        FileOutputStream out;
-//        try {
-//            out = new FileOutputStream(file);
-//            ObjectOutputStream objOut=new ObjectOutputStream(out);
-//            objOut.writeObject(objs);
-//            objOut.flush();
-//            objOut.close();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
+		MaxEnt maxEnt;
+			maxEnt = MaxEnt.loadModel("120Q-Train.dat2");
+			return maxEnt.predict(cc);
+//		List<String> fieldList = new ArrayList<String>();
 	}
 	
 	public static void loadTrainNewDZZMaxEnt() throws IOException {
-		String path = "NEXT.txt";
-		MaxEnt maxEnt = new MaxEnt();
-		maxEnt.loadData(path,0,1,"\t");
-		maxEnt.train(20);
-		maxEnt.save("Q2T-Trained1214.dat");
+//		String path = "120-questions-4-train.txt";
+//		MaxEnt maxEnt = new MaxEnt();
+//		maxEnt.loadData(path,0,1,"\t");
+//		maxEnt.save("120Q-PreTrain.dat");
+		MaxEnt maxEnt;
+		for(int i=3;i<20;i++){
+			maxEnt = MaxEnt.loadModel("120Q-Train.dat"+(i-1));
+			maxEnt.train(1);
+			maxEnt.save("120Q-Train.dat"+i);
+		}
 //		List<String> fieldList = new ArrayList<String>();
 	}
 	

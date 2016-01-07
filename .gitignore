@@ -17,3 +17,4 @@ apache-solr/solr-clustering/conf/dataimport.properties
 apache-solr/example/solr/data
 
 /build/
+/bin/

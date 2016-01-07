@@ -43,7 +43,7 @@ public class SolrConnector {
 //		for(String ans:answers){
 //			System.out.println(ans);
 //		}
-		uploadNewDisease();
+		uploadQA120();
 //		deleteAll();
 	}
 
@@ -72,6 +72,57 @@ public class SolrConnector {
 		f.close();
 	}
 
+	private static void uploadQAObj() throws SolrServerException, IOException, NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+		Object temp = null;
+		File file = new File("QAObj.dat");
+		FileInputStream in;
+		try {
+			in = new FileInputStream(file);
+			ObjectInputStream objIn = new ObjectInputStream(in);
+			temp = objIn.readObject();
+			objIn.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		List<QAObj> dds = (List<QAObj>) temp;
+
+		HttpSolrClient solr = new HttpSolrClient("http://localhost:8983/solr/qa2");
+		solr.setConnectionTimeout(100);
+		solr.setDefaultMaxConnectionsPerHost(100);
+		solr.setMaxTotalConnections(100);
+
+		List<SolrInputDocument> docs = new ArrayList<SolrInputDocument>();
+		for (int i =0;i<dds.size();i++) {
+			QAObj dd = dds.get(i);
+			SolrInputDocument doc = new SolrInputDocument();
+			doc.addField("id", UUID.randomUUID().toString());
+			for(Field f:QAObj.class.getDeclaredFields()){
+				String fieldName = f.getName();
+				if(fieldName.equals("serialVersionUID")){
+					continue;
+				}
+				String first = fieldName.substring(0, 1).toUpperCase();
+				String rest = fieldName.substring(1, fieldName.length());
+				String upperCaseFieldName = new StringBuffer(first).append(rest).toString(); 
+				Method method = QAObj.class.getMethod("get"+upperCaseFieldName, null);
+//				System.out.println(fieldName+":"+method.invoke(dd, null));
+				doc.addField(fieldName, method.invoke(dd, null));
+			}
+			docs.add(doc);
+			if(i%2000==0){
+				solr.add(docs);
+				solr.commit();
+				docs.clear();
+				System.out.println("flushing...");
+			}
+		}
+		solr.add(docs);
+		solr.commit();
+		docs.clear();
+	}
+	
 	private static void uploadNewDisease() throws SolrServerException, IOException, NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 		Object temp = null;
 		File file = new File("NewDisease.dat");
@@ -88,16 +139,65 @@ public class SolrConnector {
 		}
 		List<NewDiseaseDescription> dds = (List<NewDiseaseDescription>) temp;
 
-		HttpSolrClient solr = new HttpSolrClient("http://127.0.0.1:8983/solr/solr-qa");
+		for (NewDiseaseDescription dd : dds) {
+			System.out.println(dd.getName());
+		}
+//		HttpSolrClient solr = new HttpSolrClient("http://127.0.0.1:8983/solr/solr-qa");
+//		solr.setConnectionTimeout(100);
+//		solr.setDefaultMaxConnectionsPerHost(100);
+//		solr.setMaxTotalConnections(100);
+//
+//		List<SolrInputDocument> docs = new ArrayList<SolrInputDocument>();
+//		for (NewDiseaseDescription dd : dds) {
+//			SolrInputDocument doc = new SolrInputDocument();
+//			doc.addField("id", UUID.randomUUID().toString());
+//			for(Field f:NewDiseaseDescription.class.getDeclaredFields()){
+//				String fieldName = f.getName();
+//				if(fieldName.equals("serialVersionUID")){
+//					continue;
+//				}
+//				String first = fieldName.substring(0, 1).toUpperCase();
+//				String rest = fieldName.substring(1, fieldName.length());
+//				String upperCaseFieldName = new StringBuffer(first).append(rest).toString(); 
+//				Method method = NewDiseaseDescription.class.getMethod("get"+upperCaseFieldName, null);
+////				System.out.println(fieldName+":"+method.invoke(dd, null));
+//				doc.addField(fieldName, method.invoke(dd, null));
+//			}
+//			docs.add(doc);
+//		}
+//		solr.add(docs);
+//		solr.commit();
+	}
+	
+	private static void uploadQA120() throws SolrServerException, IOException, NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+		Object temp = null;
+		File file = new File("QA120.dat");
+		FileInputStream in;
+		try {
+			in = new FileInputStream(file);
+			ObjectInputStream objIn = new ObjectInputStream(in);
+			temp = objIn.readObject();
+			objIn.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		List<QA120> dds = (List<QA120>) temp;
+
+		for (QA120 dd : dds) {
+			System.out.println(dd.getName());
+		}
+		HttpSolrClient solr = new HttpSolrClient("http://127.0.0.1:8983/solr/qa120");
 		solr.setConnectionTimeout(100);
 		solr.setDefaultMaxConnectionsPerHost(100);
 		solr.setMaxTotalConnections(100);
 
 		List<SolrInputDocument> docs = new ArrayList<SolrInputDocument>();
-		for (NewDiseaseDescription dd : dds) {
+		for (QA120 dd : dds) {
 			SolrInputDocument doc = new SolrInputDocument();
 			doc.addField("id", UUID.randomUUID().toString());
-			for(Field f:NewDiseaseDescription.class.getDeclaredFields()){
+			for(Field f:QA120.class.getDeclaredFields()){
 				String fieldName = f.getName();
 				if(fieldName.equals("serialVersionUID")){
 					continue;
@@ -105,7 +205,7 @@ public class SolrConnector {
 				String first = fieldName.substring(0, 1).toUpperCase();
 				String rest = fieldName.substring(1, fieldName.length());
 				String upperCaseFieldName = new StringBuffer(first).append(rest).toString(); 
-				Method method = NewDiseaseDescription.class.getMethod("get"+upperCaseFieldName, null);
+				Method method = QA120.class.getMethod("get"+upperCaseFieldName, null);
 //				System.out.println(fieldName+":"+method.invoke(dd, null));
 				doc.addField(fieldName, method.invoke(dd, null));
 			}

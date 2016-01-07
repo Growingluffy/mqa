@@ -143,7 +143,7 @@ public class IBaguoAsk implements QuestionToAnswer {
 			e.printStackTrace();
 		}
 		List<NewDiseaseDescription> dds = (List<NewDiseaseDescription>) temp;
-		
+		int i=0;
 		FileWriter fw = new FileWriter("data/NewDzz2Type.txt");
 		for (NewDiseaseDescription dd : dds) {
 			for(Field f:NewDiseaseDescription.class.getDeclaredFields()){
@@ -162,6 +162,7 @@ public class IBaguoAsk implements QuestionToAnswer {
 						newMap2.put(nt, 0);
 					}
 					newMap2.put(nt, newMap2.get(nt)+1);
+					i++;
 					fw.write(nt+"~,~"+method.invoke(dd, null).toString().replaceAll("\n", "").trim()+"\n");
 				}
 			}
@@ -169,6 +170,9 @@ public class IBaguoAsk implements QuestionToAnswer {
 		}
 		fw.close();
 		System.out.println(newMap2);
+		for(String key:newMap2.keySet()){
+			System.out.println(key+newMap2.get(key)*100.0/i);
+		}
 	}
 
 	@Override

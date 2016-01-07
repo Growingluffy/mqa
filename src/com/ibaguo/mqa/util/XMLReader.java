@@ -19,6 +19,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import com.ibaguo.mqa.solr.NewDiseaseDescription;
+import com.ibaguo.mqa.solr.QA120;
 import com.ibaguo.mqa.solr.QAObj;
 import com.ibaguo.nlp.MyNLP;
 
@@ -44,8 +45,8 @@ public class XMLReader {
 		// e.printStackTrace();
 		// }
 
-		List<QAObj> ojbs = getQAObj();
-		File file = new File("QAObj.dat");
+		List<QA120> ojbs = get120Disease();
+		File file = new File("QA120.dat");
 		FileOutputStream out;
 		try {
 			out = new FileOutputStream(file);
@@ -137,6 +138,43 @@ public class XMLReader {
 		return diseases;
 	}
 
+	private static List<QA120> get120Disease() {
+		List<QA120> diseases = new ArrayList<>();
+		Element root = null;
+		DocumentBuilder db = null;
+		DocumentBuilderFactory dbf = null;
+		try {
+			dbf = DocumentBuilderFactory.newInstance();
+			db = dbf.newDocumentBuilder();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		for (File f : new File("/Users/thyferny/Downloads/120-diseases").listFiles()) {
+			try {
+				Document dt = db.parse(f);
+				root = dt.getDocumentElement();
+				QA120 disease = new QA120();
+				NodeList childNodes = root.getChildNodes();
+				disease.setName(root.getAttribute("name").trim());
+				for (int i = 0; i < childNodes.getLength(); i++) {
+					Node node = childNodes.item(i);
+					if (node.getAttributes() != null) {
+						String fieldName = MyNLP.convertToPinyinString(node.getAttributes().getNamedItem("key").getNodeValue().trim(), "", false);
+						String first = fieldName.substring(0, 1).toUpperCase();
+						String rest = fieldName.substring(1, fieldName.length());
+						fieldName = new StringBuffer(first).append(rest).toString();
+						Method method = QA120.class.getMethod("set" + fieldName, String.class);
+						method.invoke(disease, node.getTextContent());
+					}
+				}
+				diseases.add(disease);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return diseases;
+	}
+	
 	private static List<NewDiseaseDescription> getDisease() {
 		List<NewDiseaseDescription> diseases = new ArrayList<>();
 		Element root = null;
