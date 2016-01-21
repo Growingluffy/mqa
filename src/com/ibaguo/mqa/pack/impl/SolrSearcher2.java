@@ -32,12 +32,19 @@ public class SolrSearcher2{
 		return solr;
 	}
 	
-	public static QueryResponse search(String q, int count) {
+	public static QueryResponse search(String q, int count,List<String> symptoms) {
 		SolrQuery query = null;
 		SolrClient solr = createSolrServer();
 		try {
 			query = new SolrQuery();
-			query.setQuery("question:"+q);
+			StringBuffer sb = new StringBuffer();
+			if(symptoms.size()>0){
+				sb.append("or answer:").append(symptoms.get(0));
+				for(int i=1;i<symptoms.size();i++ ){
+					sb.append(" and answer:").append(symptoms.get(i));
+				}
+			}
+			query.setQuery("question:"+q+sb.toString());
 			// 设置起始位置与返回结果数
 			query.setRows(count);
 		} catch (Exception e) {
@@ -54,8 +61,8 @@ public class SolrSearcher2{
 		return rsp;
 	}
 	
-	public static List<DocRank> search(String q) {
-		QueryResponse rsp = search(q,100);
+	public static List<DocRank> search(String q,List<String> symptoms) {
+		QueryResponse rsp = search(q,100,symptoms);
 		SolrDocumentList sdl = (SolrDocumentList) rsp.getResponse().get("response");
 		double MAX = Integer.MAX_VALUE*1.0;
 		List<DocRank> ret = new ArrayList<>();

@@ -159,7 +159,7 @@ public class IBaguoAsk4 implements QuestionToAnswer {
 			
 			List<String> distinctAnswer = new ArrayList<>();
 			List<Doc> ans2 = new ArrayList<>();
-			List<DocRank> qa2 = SolrSearcher2.search(q);
+			List<DocRank> qa2 = SolrSearcher2.search(q,getSymptoms(q));
 			for (DocRank srr : qa2) {
 				Doc sr = srr.getDoc();
 				Doc aDoc = new Doc(sr.getName(), sr.getId());
