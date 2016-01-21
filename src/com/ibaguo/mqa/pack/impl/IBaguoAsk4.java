@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -32,6 +33,7 @@ public class IBaguoAsk4 implements QuestionToAnswer {
 	public static Map<String, String> newMap = new HashMap<>();
 	public static Map<String, String> pinyinMap = new HashMap<>();
 	static Map<String, List<String>> dzzNameExt = new HashMap<>();
+	static Map<String, List<String>> symptomsExt = new HashMap<>();
 
 	static {
 		String aa = "新分类		临床表现	5治疗	12并发症			2病因			13诊断			5治疗	13诊断		6注意事项					5治疗			4诊断		3临床表现	6注意事项												6注意事项	5治疗				5治疗		2病因				10预防	5治疗		15流行病学	2病因				5治疗	3临床表现			5治疗	10预防	4诊断				2病因	2病因	4诊断	5治疗	3临床表现	4诊断	5治疗	2病因	2病因	6注意事项		6注意事项			2病因	13诊断	4诊断	4诊断	13诊断	10预防	3临床表现	10预防	2病因		5治疗	5治疗			4诊断	5治疗	5治疗	4诊断	7副作用	17并发症		2病因	2病因		6注意事项		4诊断	5治疗	17并发症	7副作用	2病因		5治疗	3临床表现	4诊断	5治疗	5治疗		3临床表现	5治疗		3临床表现	3临床表现	7副作用	6注意事项	14预后	1概述			5治疗	5治疗	4诊断		2病因	5治疗	2病因	10预防	4诊断	2病因	15流行病学	2病因	5治疗		17并发症				6注意事项	5治疗				6注意事项						4诊断	5治疗			3临床表现	2病因				5治疗	5治疗		6注意事项			5治疗	5治疗	5治疗	5治疗	6注意事项	13诊断	5治疗	6注意事项		5治疗				5治疗	5治疗	5治疗	16治疗			5治疗		5治疗	4诊断	6注意事项	5治疗	5治疗	12并发症	5治疗	5治疗	13诊断	5治疗		5治疗	13诊断	5治疗	5治疗	14预后		5治疗	5治疗	10预防	10预防			4诊断	6注意事项	4诊断	4诊断		6注意事项		5治疗		14预后			17禁忌症	3临床表现	2病因			2病因	6注意事项	3临床表现	6注意事项			4诊断	6注意事项	10预防	5治疗		5治疗		16治疗	10预防	3临床表现			4诊断	5治疗		3临床表现		5治疗		2病因			10预防		7副作用	5治疗	5治疗				5治疗	4诊断	2病因	4诊断	4诊断	10预防	5治疗		4诊断		12并发症			13诊断						4诊断		5治疗								2病因			13诊断	2病因	4诊断	13诊断	2病因			注意事项";
@@ -62,6 +64,18 @@ public class IBaguoAsk4 implements QuestionToAnswer {
 				dzzNameExt.put(list[0], tt);
 			}
 			br.close();
+			
+			fr = new FileReader(System.getProperty("user.dir") + "/120-symptoms-completed.txt");
+			br = new BufferedReader(fr);
+			while ((tmp = br.readLine()) != null) {
+				String[] list = tmp.split("\t");
+				List<String> tt = new ArrayList<>();
+				for(String s:list){
+					tt.add(s);
+				}
+				symptomsExt.put(list[0], tt);
+			}
+			br.close();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -76,16 +90,17 @@ public class IBaguoAsk4 implements QuestionToAnswer {
 
 	public static void main(String[] args) throws NoSuchMethodException, SecurityException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException, IOException {
-		String q = "怎么预防痔疮";
+		String q = "恶心干呕头疼疲劳是什么病";
 //		List<AskResult> askResult = new IBaguoAsk4().makeQa(q);
 //		String now = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
 //		Status status = new Status(1, "Success", now);
 //		System.out.println(Utils.toJson(new JsonAskResult(status, askResult)));
-		System.out.println(getDzzName(q));
+		List<String> aa = getSymptoms(q);
+		System.out.println(Arrays.toString(aa.toArray(new String[aa.size()])));
 	}
 
 	@Override
-	public  List<AskResult> makeQa(String q) {
+	public  List<AskResult> makeQa(String q,int size) {
 		// KeyWordExtract kwe = new NlpKeyWordExtract();
 
 		List<Term> ktList = MyNLP.segment(q);
@@ -111,7 +126,7 @@ public class IBaguoAsk4 implements QuestionToAnswer {
 		System.out.println(questionType);
 		List<AskResult> ret = new ArrayList<>();
 		
-
+		int index = 0;
 		try {
 			List<Doc> ans1 = new ArrayList<>();
 			List<DocRank> qa120 = SolrSearcher3.search(getDzzName(q));
@@ -128,10 +143,20 @@ public class IBaguoAsk4 implements QuestionToAnswer {
 				}
 				if(aDockHasVal){
 					ans1.add(aDoc);
+					index++;
+					if(index>=size){
+						break;
+					}
 				}
 			}
-			ret.add(new AskResult("qa120", ans1));
+			if(index>0){
+				ret.add(new AskResult("qa120", ans1));
+			}
 
+			if(index>=size){
+				return ret;
+			}
+			
 			List<String> distinctAnswer = new ArrayList<>();
 			List<Doc> ans2 = new ArrayList<>();
 			List<DocRank> qa2 = SolrSearcher2.search(q);
@@ -155,6 +180,9 @@ public class IBaguoAsk4 implements QuestionToAnswer {
 				}
 				if(aDockHasVal&&!contain){
 					ans2.add(aDoc);
+					if(index>=size){
+						break;
+					}
 				}
 			}
 			ret.add(new AskResult("qa2", ans2));
@@ -164,6 +192,16 @@ public class IBaguoAsk4 implements QuestionToAnswer {
 		return ret;
 	}
 
+	private static List<String> getSymptoms(String q){
+		List<String> sInQ = new ArrayList<>();
+		for (String name : symptomsExt.keySet()) {
+			if(q.contains(name)){
+				sInQ.add(name);
+			}
+		}
+		return sInQ;
+	}
+	
 	private static String getDzzName(String q) {
 		String realDzzName = "";
 		int matchLength = 0;

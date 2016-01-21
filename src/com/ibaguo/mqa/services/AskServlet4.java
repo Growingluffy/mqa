@@ -29,11 +29,17 @@ public class AskServlet4 extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String sent = request.getParameter("sent");
+		int size;
+		try{
+			size = Integer.valueOf(request.getParameter("num"));
+		}catch(Exception e){
+			size = 1;
+		}
 		response.setContentType("application/json;charset=utf-8");
 		response.setCharacterEncoding("UTF-8");
 		response.setStatus(HttpServletResponse.SC_OK);
 		QuestionToAnswer qa = new IBaguoAsk4();
-		List<AskResult> askResult = qa.makeQa(sent);
+		List<AskResult> askResult = qa.makeQa(sent,size);
 		String now = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
 		Status status = new Status(1, "Success", now);
 		response.getWriter().println(Utils.toJson(new JsonAskResult(status, askResult)));
