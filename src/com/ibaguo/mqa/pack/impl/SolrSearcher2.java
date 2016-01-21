@@ -37,7 +37,7 @@ public class SolrSearcher2{
 		SolrClient solr = createSolrServer();
 		try {
 			query = new SolrQuery();
-			query.setQuery(q);
+			query.setQuery("question:"+q);
 			// 设置起始位置与返回结果数
 			query.setRows(count);
 		} catch (Exception e) {
@@ -57,10 +57,8 @@ public class SolrSearcher2{
 	public static List<DocRank> search(String q) {
 		QueryResponse rsp = search(q,100);
 		SolrDocumentList sdl = (SolrDocumentList) rsp.getResponse().get("response");
-		Map<Doc, Double> listDoc = new HashMap<>();
-		Map<String, Doc> contentToDoc = new HashMap<>();
-		Suggester suggester = new Suggester();
 		double MAX = Integer.MAX_VALUE*1.0;
+		List<DocRank> ret = new ArrayList<>();
 		for (SolrDocument sd : sdl) {
 			try {
 				StringBuffer sb = new StringBuffer();
@@ -73,7 +71,6 @@ public class SolrSearcher2{
 						if(!value.equals("")){
 							doc.putFieldVal(fn, value);
 							sb.append(value+";");
-							suggester.addSentence(value);
 						}
 					}else if(obj instanceof ArrayList){
 						List<String> ans = (ArrayList<String>)obj ;
@@ -83,21 +80,11 @@ public class SolrSearcher2{
 						}
 					}
 				}
-				suggester.addSentence(sb.toString());
-				if(contentToDoc.containsKey(sb.toString())){
-//					MAX++;
-				}else{
-					contentToDoc.put(sb.toString(), doc);
-					listDoc.put(doc, MAX);
-					MAX--;
-				}
+				;
+				ret.add(new DocRank(doc, MAX--));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-		}
-		List<DocRank> ret = new ArrayList<>();
-		for(Doc doc:listDoc.keySet()){
-			ret.add(new DocRank(doc, listDoc.get(doc)));
 		}
 		return ret ;
 	}

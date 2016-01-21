@@ -2,8 +2,8 @@ package com.ibaguo.mqa.intefaces;
 
 import java.util.List;
 
-import com.ibaguo.mqa.json.Doc;
+import com.ibaguo.mqa.json.AskResult;
 
 public interface QuestionToAnswer {
-	public List<Doc> makeQa(String q);
+	public List<AskResult> makeQa(String q);
 }

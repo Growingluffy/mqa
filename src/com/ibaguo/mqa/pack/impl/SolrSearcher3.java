@@ -14,6 +14,8 @@ import org.apache.solr.common.SolrDocumentList;
 
 import com.ibaguo.mqa.json.Doc;
 import com.ibaguo.mqa.json.DocRank;
+import com.ibaguo.nlp.MyNLP;
+import com.ibaguo.nlp.seg.common.Term;
 import com.ibaguo.nlp.suggest.Suggester;
 
 public class SolrSearcher3{
@@ -37,7 +39,14 @@ public class SolrSearcher3{
 		SolrClient solr = createSolrServer();
 		try {
 			query = new SolrQuery();
-			query.setQuery(q);
+			String rq = "name:"+q;
+//			List<Term> terms = MyNLP.segment(q);
+//			rq = terms.get(0).word;
+//			for(int i=1;i<terms.size();i++){
+//				rq += " and ";
+//				rq += terms.get(i).word;
+//			}
+			query.setQuery(rq);
 			// 设置起始位置与返回结果数
 			query.setRows(count);
 		} catch (Exception e) {
@@ -57,13 +66,14 @@ public class SolrSearcher3{
 	public static List<DocRank> search(String q) {
 		QueryResponse rsp = search(q,100);
 		SolrDocumentList sdl = (SolrDocumentList) rsp.getResponse().get("response");
-		Map<Doc, Double> listDoc = new HashMap<>();
-		Map<String, Doc> contentToDoc = new HashMap<>();
-		Suggester suggester = new Suggester();
+//		Map<Doc, Double> listDoc = new HashMap<>();
+//		Map<String, Doc> contentToDoc = new HashMap<>();
+//		Suggester suggester = new Suggester();
 		double MAX = Integer.MAX_VALUE*1.0;
+		List<DocRank> ret = new ArrayList<>();
 		for (SolrDocument sd : sdl) {
 			try {
-				StringBuffer sb = new StringBuffer();
+//				StringBuffer sb = new StringBuffer();
 				Doc doc = new Doc(sd.getFieldValue("name").toString(),sd.getFieldValue("id").toString());
 				for(String fn:sd.getFieldNames()){
 					if(fn.equals("name")||fn.equals("id")) continue;
@@ -71,33 +81,27 @@ public class SolrSearcher3{
 					if(obj instanceof String){
 						String value = (String)obj;
 						if(!value.equals("")){
-							doc.putFieldVal(fn, value);
-							sb.append(value+";");
-							suggester.addSentence(value);
+							
+							doc.putFieldVal(fn, MyNLP.extractSummary(value, 1).get(0));
+//							sb.append(value+";");
+//							suggester.addSentence(value);
 						}
 					}else if(obj instanceof ArrayList){
 						List<String> ans = (ArrayList<String>)obj ;
 						if(ans.size()!=0&&!ans.get(0).equals("")){
+//							doc.putFieldVal(fn, ans.get(0));
 							doc.putFieldVal(fn, ans.get(0));
-							sb.append(ans.get(0)+";");
+//							sb.append(ans.get(0)+";");
 						}
 					}
 				}
-				suggester.addSentence(sb.toString());
-				if(contentToDoc.containsKey(sb.toString())){
-//					MAX++;
-				}else{
-					contentToDoc.put(sb.toString(), doc);
-					listDoc.put(doc, MAX);
-					MAX--;
-				}
+//				suggester.addSentence(sb.toString());
+//				contentToDoc.put(sb.toString(), doc);
+				ret.add(new DocRank(doc, MAX));
+				MAX--;
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-		}
-		List<DocRank> ret = new ArrayList<>();
-		for(Doc doc:listDoc.keySet()){
-			ret.add(new DocRank(doc, listDoc.get(doc)));
 		}
 		return ret ;
 	}

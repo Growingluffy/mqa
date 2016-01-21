@@ -94,28 +94,30 @@ public class Test {
 //		loadSaveNewDZZMaxEnt();
 //		loadTrainNewDZZMaxEnt();
 //		System.out.println(loadPredictNewDZZMaxEnt("头晕恶心是怎么回事"));
-		int pres = 0;
-		MaxEnt maxEnt;
-		maxEnt = MaxEnt.loadModel("120Q-Train.dat2");
-		FileReader fr = new FileReader(new File("120-questions-4-train.txt"));
-		BufferedReader br = new BufferedReader(fr);
-		String tmp;
-		while((tmp=br.readLine())!=null){
-			String lable = tmp.split("\t")[0];
-			String qt = tmp.split("\t")[1];
-			List<Term> bb = MyNLP.segment(qt);
-			List<String> cc = new ArrayList<>();
-			for(Term t:bb){
-				cc.add(t.word);
-			}
-			String p = maxEnt.eval(cc);
-			if(p.equals(lable)){
-				pres++;
-				System.out.println(pres);
-			}
-		}
-		br.close();
-		System.out.println(pres*1.0/206817);
+//		int pres = 0;
+//		MaxEnt maxEnt;
+//		maxEnt = MaxEnt.loadModel("120Q-Train.dat2");
+//		FileReader fr = new FileReader(new File("120-questions-4-train.txt"));
+//		BufferedReader br = new BufferedReader(fr);
+//		String tmp;
+//		while((tmp=br.readLine())!=null){
+//			String lable = tmp.split("\t")[0];
+//			String qt = tmp.split("\t")[1];
+//			List<Term> bb = MyNLP.segment(qt);
+//			List<String> cc = new ArrayList<>();
+//			for(Term t:bb){
+//				cc.add(t.word);
+//			}
+//			String p = maxEnt.eval(cc);
+//			if(p.equals(lable)){
+//				pres++;
+//				System.out.println(pres);
+//			}
+//		}
+//		br.close();
+//		System.out.println(pres*1.0/206817);
+		
+		load120();
 //		writeAndFormatted();
 	}
 
@@ -162,6 +164,28 @@ public class Test {
             e.printStackTrace();
         }
         return (List<QAObj>)temp;
+	}
+	
+	public static void load120(){
+		Object temp=null;
+        File file =new File("QA120.dat");
+        FileInputStream in;
+        try {
+            in = new FileInputStream(file);
+            ObjectInputStream objIn=new ObjectInputStream(in);
+            temp=objIn.readObject();
+            objIn.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+       List<QA120> aa = (List<QA120>)temp;
+       for (QA120 aaa:aa) {
+		if(aaa.getName().equals("痔疮")){
+			System.out.println(aaa.getGaishu());
+		}
+	}
 	}
 	
 	public static List<String> load3k() throws FileNotFoundException{

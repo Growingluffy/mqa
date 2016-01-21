@@ -2,8 +2,10 @@ package com.ibaguo.mqa.services;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -23,7 +25,7 @@ public class AskServlet4 extends HttpServlet {
 
 	public AskServlet4() {
 	}
-
+ 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String sent = request.getParameter("sent");
@@ -31,9 +33,9 @@ public class AskServlet4 extends HttpServlet {
 		response.setCharacterEncoding("UTF-8");
 		response.setStatus(HttpServletResponse.SC_OK);
 		QuestionToAnswer qa = new IBaguoAsk4();
-		List<Doc> result = qa.makeQa(sent);
+		List<AskResult> askResult = qa.makeQa(sent);
 		String now = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
 		Status status = new Status(1, "Success", now);
-		response.getWriter().println(Utils.toJson(new JsonAskResult(status, new AskResult("solr-qa" , result))));
+		response.getWriter().println(Utils.toJson(new JsonAskResult(status, askResult)));
 	}
 }
