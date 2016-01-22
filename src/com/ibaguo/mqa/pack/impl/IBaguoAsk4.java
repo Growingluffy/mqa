@@ -34,6 +34,10 @@ public class IBaguoAsk4 implements QuestionToAnswer {
 	public static Map<String, String> pinyinMap = new HashMap<>();
 	static Map<String, List<String>> dzzNameExt = new HashMap<>();
 	static Map<String, List<String>> symptomsExt = new HashMap<>();
+	static Map<String, List<String>> dzzSymptoms = new HashMap<>();
+	static Map<String, List<String>> dzzRelate = new HashMap<>();
+	static Map<String, List<String>> organs = new HashMap<>();
+	
 
 	static {
 		String aa = "新分类		临床表现	5治疗	12并发症			2病因			13诊断			5治疗	13诊断		6注意事项					5治疗			4诊断		3临床表现	6注意事项												6注意事项	5治疗				5治疗		2病因				10预防	5治疗		15流行病学	2病因				5治疗	3临床表现			5治疗	10预防	4诊断				2病因	2病因	4诊断	5治疗	3临床表现	4诊断	5治疗	2病因	2病因	6注意事项		6注意事项			2病因	13诊断	4诊断	4诊断	13诊断	10预防	3临床表现	10预防	2病因		5治疗	5治疗			4诊断	5治疗	5治疗	4诊断	7副作用	17并发症		2病因	2病因		6注意事项		4诊断	5治疗	17并发症	7副作用	2病因		5治疗	3临床表现	4诊断	5治疗	5治疗		3临床表现	5治疗		3临床表现	3临床表现	7副作用	6注意事项	14预后	1概述			5治疗	5治疗	4诊断		2病因	5治疗	2病因	10预防	4诊断	2病因	15流行病学	2病因	5治疗		17并发症				6注意事项	5治疗				6注意事项						4诊断	5治疗			3临床表现	2病因				5治疗	5治疗		6注意事项			5治疗	5治疗	5治疗	5治疗	6注意事项	13诊断	5治疗	6注意事项		5治疗				5治疗	5治疗	5治疗	16治疗			5治疗		5治疗	4诊断	6注意事项	5治疗	5治疗	12并发症	5治疗	5治疗	13诊断	5治疗		5治疗	13诊断	5治疗	5治疗	14预后		5治疗	5治疗	10预防	10预防			4诊断	6注意事项	4诊断	4诊断		6注意事项		5治疗		14预后			17禁忌症	3临床表现	2病因			2病因	6注意事项	3临床表现	6注意事项			4诊断	6注意事项	10预防	5治疗		5治疗		16治疗	10预防	3临床表现			4诊断	5治疗		3临床表现		5治疗		2病因			10预防		7副作用	5治疗	5治疗				5治疗	4诊断	2病因	4诊断	4诊断	10预防	5治疗		4诊断		12并发症			13诊断						4诊断		5治疗								2病因			13诊断	2病因	4诊断	13诊断	2病因			注意事项";
@@ -58,22 +62,70 @@ public class IBaguoAsk4 implements QuestionToAnswer {
 			while ((tmp = br.readLine()) != null) {
 				String[] list = tmp.split(",");
 				List<String> tt = new ArrayList<>();
-				for(String s:list){
+				for (String s : list) {
 					tt.add(s);
 				}
 				dzzNameExt.put(list[0], tt);
 			}
 			br.close();
-			
+
 			fr = new FileReader(System.getProperty("user.dir") + "/120-symptoms-completed.txt");
 			br = new BufferedReader(fr);
 			while ((tmp = br.readLine()) != null) {
 				String[] list = tmp.split("\t");
 				List<String> tt = new ArrayList<>();
-				for(String s:list){
+				for (String s : list) {
 					tt.add(s);
 				}
 				symptomsExt.put(list[0], tt);
+			}
+			br.close();
+
+			fr = new FileReader(System.getProperty("user.dir") + "/120-symptoms-and-related-diseases-completed.txt");
+			br = new BufferedReader(fr);
+			while ((tmp = br.readLine()) != null) {
+				String[] list = tmp.split("\t");
+				List<String> dz = dzzSymptoms.get(list[1]);
+				List<String> dr = dzzRelate.get(list[1]);
+				if (dz == null) {
+					dz = new ArrayList<>();
+					dzzSymptoms.put(list[1], dz);
+				}
+				if (dr == null) {
+					dr = new ArrayList<>();
+					dzzRelate.put(list[1], dr);
+				}
+				if (list[2].equals("相关疾病")) {
+					dr.add(list[3]);
+				}
+				if (list[2].equals("相关症状")) {
+					dz.add(list[3]);
+				}
+			}
+			br.close();
+			
+			fr = new FileReader(System.getProperty("user.dir") + "/organs.txt");
+			br = new BufferedReader(fr);
+			int i=0;
+			String lastVal = null;
+			List<String> tt = null;
+			while ((tmp = br.readLine()) != null) {
+				if(i==0){
+					lastVal = tmp;
+					tt = new ArrayList<>();
+				}
+				if(tmp.equals("")){
+					lastVal = "";
+					tt = new ArrayList<>();
+				}else{
+					if(lastVal.equals("")){
+						lastVal = tmp;
+					}else{
+						tt.add(tmp);
+					}
+				}
+				i++;
+				organs.put(lastVal, tt);
 			}
 			br.close();
 		} catch (FileNotFoundException e) {
@@ -90,17 +142,74 @@ public class IBaguoAsk4 implements QuestionToAnswer {
 
 	public static void main(String[] args) throws NoSuchMethodException, SecurityException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException, IOException {
-		String q = "恶心干呕头疼疲劳是什么病";
-//		List<AskResult> askResult = new IBaguoAsk4().makeQa(q);
-//		String now = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
-//		Status status = new Status(1, "Success", now);
-//		System.out.println(Utils.toJson(new JsonAskResult(status, askResult)));
-		List<String> aa = getSymptoms(q);
-		System.out.println(Arrays.toString(aa.toArray(new String[aa.size()])));
+		String q = "胃不舒服怎么办";
+		// List<AskResult> askResult = new IBaguoAsk4().makeQa(q);
+		// String now = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new
+		// Date());
+		// Status status = new Status(1, "Success", now);
+		// System.out.println(Utils.toJson(new JsonAskResult(status,
+		// askResult)));
+		
+//		List<Term> ktList = MyNLP.segment(q);
+//		List<String> kwList = new ArrayList<>();
+//		for (Term word : ktList) {
+//			kwList.add(word.word);
+//		}
+//		QuestionClassifier qc = MaxEnt.loadModel("NEWDZZTYP-Trained2.dat");
+//		// Map<String, Double> map1 = qc.predict(kwList);
+//		Map<String, String> fixed = new HashMap<>();
+//		fixed.put("jianbie", "诊断");
+//		fixed.put("zhiliao", "治疗");
+//		fixed.put("jiancha", "诊断");
+//		fixed.put("bingyin", "病因");
+//		fixed.put("yufang", "预防");
+//		fixed.put("yinshi", "注意事项");
+//		fixed.put("gaishu", "概述");
+//		fixed.put("zhengzhuang", "临床表现");
+//		fixed.put("bingfazheng", "并发症");
+//		fixed.put("shiliao", "预后");
+////		String questionType = qc.eval(kwList);
+//		System.out.println(eval85(qc.predict(kwList)));
+//		
+//		List<String> aa = getSymptoms(q);
+//		System.out.println(Arrays.toString(aa.toArray(new String[aa.size()])));
+//		System.out.println(getDzzName(q));
+		
+		List<String> bb = getOrgans(q);
+		System.out.println(Arrays.toString(bb.toArray(new String[bb.size()])));
+
+//		List<String> bb = getDzzSymptoms(getDzzName(q));
+//		System.out.println(Arrays.toString(bb.toArray(new String[bb.size()])));
+//
+//		List<String> cc = getRelateDzz(getDzzName(q));
+//		System.out.println(Arrays.toString(cc.toArray(new String[cc.size()])));
 	}
 
+	private static List<String> getOrgans(String q) {
+		List<String> sInQ = new ArrayList<>();
+		for (String name : organs.keySet()) {
+			for (String nick:organs.get(name)) {
+				if (q.contains(nick)) {
+					sInQ.add(name);
+				}
+			}
+		}
+		return sInQ;
+	}
+
+	public static String eval85(Map<String,Double> src) {
+		String maxProbVal = "";
+		double maxProb = 0;
+		for (String k:src.keySet()) {
+			if (src.get(k)> maxProb&&src.get(k)>1.1/src.size()) {
+				maxProbVal = k;
+				maxProb = src.get(k);
+			}
+		}
+		return maxProbVal;
+	}
 	@Override
-	public  List<AskResult> makeQa(String q,int size) {
+	public List<AskResult> makeQa(String q, int size) {
 		// KeyWordExtract kwe = new NlpKeyWordExtract();
 
 		List<Term> ktList = MyNLP.segment(q);
@@ -109,57 +218,61 @@ public class IBaguoAsk4 implements QuestionToAnswer {
 			kwList.add(word.word);
 		}
 		QuestionClassifier qc = MaxEnt.loadModel("NEWDZZTYP-Trained2.dat");
-//		Map<String, Double> map1 = qc.predict(kwList);
+		// Map<String, Double> map1 = qc.predict(kwList);
 		Map<String, String> fixed = new HashMap<>();
-		fixed.put("jianbie","诊断");
-		fixed.put("zhiliao","治疗");
-		fixed.put("jiancha","诊断");
-		fixed.put("bingyin","病因");
-		fixed.put("yufang","预防");
-		fixed.put("yinshi","注意事项");
-		fixed.put("gaishu","概述");
-		fixed.put("zhengzhuang","临床表现");
-		fixed.put("bingfazheng","并发症");
-		fixed.put("shiliao","预后");
-		String questionType = qc.eval(kwList);
+		fixed.put("jianbie", "诊断");
+		fixed.put("zhiliao", "治疗");
+		fixed.put("jiancha", "诊断");
+		fixed.put("bingyin", "病因");
+		fixed.put("yufang", "预防");
+		fixed.put("yinshi", "注意事项");
+		fixed.put("gaishu", "概述");
+		fixed.put("zhengzhuang", "临床表现");
+		fixed.put("bingfazheng", "并发症");
+		fixed.put("shiliao", "预后");
+		String questionType = eval85(qc.predict(kwList));
 
-		System.out.println(questionType);
+//		System.out.println(questionType);
 		List<AskResult> ret = new ArrayList<>();
-		
+
 		int index = 0;
 		try {
-			List<Doc> ans1 = new ArrayList<>();
-			List<DocRank> qa120 = SolrSearcher3.search(getDzzName(q));
-			for (DocRank srr : qa120) {
-				Doc sr = srr.getDoc();
-				Doc aDoc = new Doc(sr.getName(), sr.getId());
-				Map<String, String> data = sr.getFieldVal();
-				boolean aDockHasVal = false;
-				for (String key : data.keySet()) {
-					if (questionType.equals(fixed.get(key))) {
-						aDoc.putFieldVal(fixed.get(key), sr.getFieldVal().get(key));
-						aDockHasVal = true;
+			if(!questionType.equals("")){
+				List<Doc> ans1 = new ArrayList<>();
+				if (getDzzName(q) != null && !getDzzName(q).equals("")) {
+					List<DocRank> qa120 = SolrSearcher3.search(getDzzName(q));
+					for (DocRank srr : qa120) {
+						Doc sr = srr.getDoc();
+						Doc aDoc = new Doc(sr.getName(), sr.getId());
+						Map<String, String> data = sr.getFieldVal();
+						boolean aDockHasVal = false;
+						for (String key : data.keySet()) {
+							if (questionType.equals(fixed.get(key))) {
+								aDoc.putFieldVal(fixed.get(key), sr.getFieldVal().get(key));
+								aDockHasVal = true;
+							}
+						}
+						if (aDockHasVal) {
+							ans1.add(aDoc);
+							index++;
+							if (index >= size) {
+								break;
+							}
+						}
+					}
+					if (index > 0) {
+						ret.add(new AskResult("qa120", ans1));
+					}
+	
+					if (index >= size) {
+						return ret;
 					}
 				}
-				if(aDockHasVal){
-					ans1.add(aDoc);
-					index++;
-					if(index>=size){
-						break;
-					}
-				}
-			}
-			if(index>0){
-				ret.add(new AskResult("qa120", ans1));
 			}
 
-			if(index>=size){
-				return ret;
-			}
-			
 			List<String> distinctAnswer = new ArrayList<>();
 			List<Doc> ans2 = new ArrayList<>();
-			List<DocRank> qa2 = SolrSearcher2.search(q,getSymptoms(q));
+			List<DocRank> qa2 = SolrSearcher2.search(q, getSymptoms(q));
 			for (DocRank srr : qa2) {
 				Doc sr = srr.getDoc();
 				Doc aDoc = new Doc(sr.getName(), sr.getId());
@@ -171,46 +284,55 @@ public class IBaguoAsk4 implements QuestionToAnswer {
 						aDoc.putFieldVal("ANSWER", sr.getFieldVal().get(key));
 						aDockHasVal = true;
 					}
-					if(key.equals("question")){
+					if (key.equals("question")) {
 						contain = distinctAnswer.contains(sr.getFieldVal().get(key));
-						if(!contain){
+						if (!contain) {
 							distinctAnswer.add(sr.getFieldVal().get(key));
 						}
 					}
 				}
-				if(aDockHasVal&&!contain){
+				if (aDockHasVal && !contain) {
 					ans2.add(aDoc);
-					if(index>=size){
+					index++;
+					if (index >= size) {
 						break;
 					}
 				}
 			}
 			ret.add(new AskResult("qa2", ans2));
 		} catch (Exception e) {
-//			e.printStackTrace();
+			// e.printStackTrace();
 		}
 		return ret;
 	}
 
-	private static List<String> getSymptoms(String q){
+	private static List<String> getRelateDzz(String dzz) {
+		return dzzRelate.get(dzz);
+	}
+
+	private static List<String> getDzzSymptoms(String dzz) {
+		return dzzSymptoms.get(dzz);
+	}
+
+	private static List<String> getSymptoms(String q) {
 		List<String> sInQ = new ArrayList<>();
 		for (String name : symptomsExt.keySet()) {
-			if(q.contains(name)){
+			if (q.contains(name)) {
 				sInQ.add(name);
 			}
 		}
 		return sInQ;
 	}
-	
+
 	private static String getDzzName(String q) {
 		String realDzzName = "";
 		int matchLength = 0;
 		double matchRate = 0;
 		boolean found = false;
 		for (String name : dzzNameExt.keySet()) {
-			for(String nick:dzzNameExt.get(name)){
+			for (String nick : dzzNameExt.get(name)) {
 				if (q.contains(nick)) {
-					if(nick.length()>matchLength){
+					if (nick.length() > matchLength) {
 						found = true;
 						realDzzName = name;
 						matchLength = nick.length();
@@ -218,7 +340,7 @@ public class IBaguoAsk4 implements QuestionToAnswer {
 				}
 			}
 		}
-		if(found){
+		if (found) {
 			return realDzzName;
 		}
 		List<Term> ktList = MyNLP.segment(q);
@@ -226,14 +348,15 @@ public class IBaguoAsk4 implements QuestionToAnswer {
 		if (!found) {
 			for (Term t : ktList) {
 				for (String name : dzzNameExt.keySet()) {
-					for(String nick:dzzNameExt.get(name)){
+					for (String nick : dzzNameExt.get(name)) {
 						if (nick.indexOf(t.word) > -1) {
 							if (t.word.length() >= matchLength) {
 								matchLength = t.word.length();
-								double tmpMatchRate = matchLength * 1.0 / name.length();
+								double tmpMatchRate = matchLength * 1.0 / nick.length();
 								if (tmpMatchRate > matchRate) {
 									realDzzName = name;
 									matchRate = tmpMatchRate;
+//									System.out.println();
 								}
 							}
 						}
@@ -241,7 +364,11 @@ public class IBaguoAsk4 implements QuestionToAnswer {
 				}
 			}
 		}
-//		System.out.println(realDzzName);
-		return realDzzName;
+		// System.out.println(realDzzName);
+		if(matchRate>0.5){
+			return realDzzName;
+		}else{
+			return "";
+		}
 	}
 }

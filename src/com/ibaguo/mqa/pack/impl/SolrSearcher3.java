@@ -1,12 +1,15 @@
 package com.ibaguo.mqa.pack.impl;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.SolrQuery;
+import org.apache.solr.client.solrj.SolrQuery.ORDER;
 import org.apache.solr.client.solrj.impl.HttpSolrClient;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrDocument;
@@ -40,12 +43,14 @@ public class SolrSearcher3{
 		try {
 			query = new SolrQuery();
 			String rq = "name:"+q;
+			System.out.println(rq);
 //			List<Term> terms = MyNLP.segment(q);
 //			rq = terms.get(0).word;
 //			for(int i=1;i<terms.size();i++){
 //				rq += " and ";
 //				rq += terms.get(i).word;
 //			}
+			query.setSort("name", ORDER.desc);
 			query.setQuery(rq);
 			// 设置起始位置与返回结果数
 			query.setRows(count);
@@ -69,20 +74,20 @@ public class SolrSearcher3{
 //		Map<Doc, Double> listDoc = new HashMap<>();
 //		Map<String, Doc> contentToDoc = new HashMap<>();
 //		Suggester suggester = new Suggester();
-		double MAX = Integer.MAX_VALUE*1.0;
+		double rank = Integer.MAX_VALUE*1.0;
 		List<DocRank> ret = new ArrayList<>();
 		for (SolrDocument sd : sdl) {
 			try {
 //				StringBuffer sb = new StringBuffer();
 				Doc doc = new Doc(sd.getFieldValue("name").toString(),sd.getFieldValue("id").toString());
+				rank = calc(sd.getFieldValue("name").toString(),q);
 				for(String fn:sd.getFieldNames()){
 					if(fn.equals("name")||fn.equals("id")) continue;
 					Object obj = sd.getFieldValue(fn);
 					if(obj instanceof String){
 						String value = (String)obj;
 						if(!value.equals("")){
-							
-							doc.putFieldVal(fn, MyNLP.extractSummary(value, 1).get(0));
+							doc.putFieldVal(fn, value);
 //							sb.append(value+";");
 //							suggester.addSentence(value);
 						}
@@ -97,13 +102,33 @@ public class SolrSearcher3{
 				}
 //				suggester.addSentence(sb.toString());
 //				contentToDoc.put(sb.toString(), doc);
-				ret.add(new DocRank(doc, MAX));
-				MAX--;
+				ret.add(new DocRank(doc, rank));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
+		System.out.println(q);
+		System.out.println("********");
+		for(DocRank s:ret){
+			System.out.println(s.getDoc().getName());
+		}
+		Collections.sort(ret);
+		for(DocRank s:ret){
+			System.out.println(s.getDoc().getName());
+		}
 		return ret ;
+	}
+
+	private static double calc(String string, String q) {
+		try {
+			if(string.length()>=q.length()){
+				return q.length()/string.length();
+			}else{
+				return string.length()/q.length();
+			}
+		} catch (Exception e) {
+			return 0.0;
+		}
 	}
 
 }

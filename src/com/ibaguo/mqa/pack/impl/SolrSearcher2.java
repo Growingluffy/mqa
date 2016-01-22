@@ -39,12 +39,13 @@ public class SolrSearcher2{
 			query = new SolrQuery();
 			StringBuffer sb = new StringBuffer();
 			if(symptoms.size()>0){
-				sb.append("or answer:").append(symptoms.get(0));
+				sb.append(" or answer:").append(symptoms.get(0));
 				for(int i=1;i<symptoms.size();i++ ){
 					sb.append(" and answer:").append(symptoms.get(i));
 				}
 			}
 			query.setQuery("question:"+q+sb.toString());
+			System.out.println("question:"+q+sb.toString());
 			// 设置起始位置与返回结果数
 			query.setRows(count);
 		} catch (Exception e) {

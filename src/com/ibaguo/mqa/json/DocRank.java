@@ -1,6 +1,6 @@
 package com.ibaguo.mqa.json;
 
-public class DocRank {
+public class DocRank implements Comparable<DocRank>{
 	Doc doc;
 	double rank;
 	public Doc getDoc() {
@@ -19,5 +19,10 @@ public class DocRank {
 		super();
 		this.doc = doc;
 		this.rank = rank;
+	}
+	@Override
+	public int compareTo(DocRank o) {
+		if(rank==o.rank) return 0;
+		return rank>o.rank?-1:1;
 	}
 }
